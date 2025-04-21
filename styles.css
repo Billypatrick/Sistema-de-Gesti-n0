@@ -1,0 +1,500 @@
+/* ===== ESTILOS GENERALES ===== */
+/* Reset básico para eliminar márgenes y padding predeterminados */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fuente principal para toda la aplicación */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ===== ESTRUCTURA PRINCIPAL ===== */
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar - Panel de navegación lateral */
+.sidebar {
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    color: white;
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+    transition: all 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Contenido principal - Se desplaza junto al sidebar */
+main {
+    margin-left: 250px;
+    transition: all 0.3s ease;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Cuando el sidebar está oculto */
+.sidebar-hidden .sidebar {
+    transform: translateX(-250px);
+}
+
+.sidebar-hidden main {
+    margin-left: 0;
+}
+
+/* Logo en el sidebar */
+.logo {
+    max-width: 180px;
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 0%;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== BOTONES DE NAVEGACIÓN ===== */
+.btn-navegacion {
+    color: white;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    padding: 12px 15px;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    width: 100%;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.btn-navegacion:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.btn-navegacion.btn-active {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-navegacion i {
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+/* ===== TABLAS DE DATOS ===== */
+.table-responsive {
+    overflow-x: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: white;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th {
+    background-color: #2c3e50;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 15px;
+}
+
+.table td {
+    padding: 10px 15px;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Estilo para las celdas de acciones */
+.table-actions {
+    white-space: nowrap;
+    width: 120px;
+}
+
+/* ===== BOTONES DE ACCIÓN ===== */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+    margin: 0 2px;
+}
+
+.btn-sm i {
+    font-size: 0.9rem;
+}
+
+/* Estilo para los botones en las tablas */
+.btn-table {
+    min-width: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== FORMULARIOS Y MODALES ===== */
+.modal-content {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    color: white;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.modal-title {
+    font-weight: 500;
+}
+
+.form-control, .form-select {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    transition: all 0.3s;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #4ca1af;
+    box-shadow: 0 0 0 0.25rem rgba(76, 161, 175, 0.25);
+}
+
+/* ===== BARRA DE BÚSQUEDA ===== */
+.search-container {
+    position: relative;
+    max-width: 300px;
+}
+
+.search-container i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+}
+
+.search-input {
+    padding-left: 35px !important;
+}
+
+/* ===== EFECTOS Y ANIMACIONES ===== */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 992px) {
+    .sidebar {
+        transform: translateX(-250px);
+    }
+    
+    .sidebar.sidebar-show {
+        transform: translateX(0);
+    }
+    
+    main {
+        margin-left: 0;
+    }
+    
+    /* Botón toggle para móviles */
+    #toggleSidebar {
+        display: block !important;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1100;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        border-radius: 0;
+    }
+    
+    .table th, .table td {
+        padding: 8px 10px;
+    }
+    
+    /* Ocultar columnas menos importantes en móviles */
+    .d-none-mobile {
+        display: none !important;
+    }
+}
+
+/* ===== CLASES UTILITARIAS ===== */
+/* Sombras */
+.shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Bordes redondeados */
+.rounded-lg {
+    border-radius: 10px !important;
+}
+
+/* Transiciones */
+.transition {
+    transition: all 0.3s ease !important;
+}
+
+/* Colores de estado */
+.bg-success-light {
+    background-color: rgba(40, 167, 69, 0.1) !important;
+}
+
+.bg-danger-light {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+}
+
+/* ===== ESTILOS ESPECÍFICOS PARA SECCIONES ===== */
+/* Sección de caja - Estado abierto/cerrado */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-open {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-closed {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Sección almacén - stock crítico */
+.stock-critical {
+    color: #dc3545;
+    font-weight: bold;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Estilos para modales de dos columnas */
+.modal-body .row {
+    margin-bottom: 1rem;
+}
+
+.modal-body .col-md-6 {
+    padding: 0 15px;
+}
+
+/* Ajustes para campos en modales */
+.modal-body .form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/* Asegurar que los textarea ocupen todo el ancho */
+.modal-body textarea.form-control {
+    min-height: 100px;
+}
+
+/* Estilos para campos monetarios */
+.modal-body .input-group-text {
+    min-width: 40px;
+    justify-content: center;
+}
+
+/* Ajustar el ancho de los modales */
+.modal-dialog.modal-lg {
+    max-width: 800px;
+}
+
+/* Estilos para tablas con líneas entre columnas */
+.table {
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    border-right: 1px solid #dee2e6; /* Línea vertical entre columnas */
+    border-left: 1px solid #dee2e6; /* Línea vertical entre columnas */
+    padding: 10px 15px;
+}
+
+.table thead th {
+    border-bottom: 2px solid #dee2e6; /* Línea más gruesa bajo los headers */
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #dee2e6; /* Línea horizontal entre filas */
+}
+
+/* Eliminar borde izquierdo de la primera columna */
+.table th:first-child, 
+.table td:first-child {
+    border-left: none;
+}
+
+/* Eliminar borde derecho de la última columna */
+.table th:last-child, 
+.table td:last-child {
+    border-right: none;
+}
+
+/* Estilo para hover manteniendo las líneas */
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+    position: relative;
+}
+
+/* Opcional: resaltar la columna al hacer hover */
+.table td:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.01);
+    z-index: -1;
+}
+
+/* Ajustar el ancho de la columna DNI en la tabla de clientes */
+#clientesBody td:nth-child(2), 
+#clientesBody th:nth-child(2) {
+    width: 110px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna Teléfono en la tabla de clientes */
+#clientesBody td:nth-child(4), 
+#clientesBody th:nth-child(4) {
+    width: 120px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna RUC en la tabla de clientes */
+#clientesBody td:nth-child(5), 
+#clientesBody th:nth-child(5) {
+    width: 150px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna de acciones en la tabla de clientes */
+#clientesBody td:last-child, 
+#clientesBody th:last-child {
+    width: 110px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna Stock en la tabla de almacén */
+#almacenBody td:nth-child(2), 
+#almacenBody th:nth-child(2) {
+    width: 190px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna Stock en la tabla de almacén */
+#almacenBody td:nth-child(4), 
+#almacenBody th:nth-child(4) {
+    width: 70px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna Precio Unitario en la tabla de almacén */
+#almacenBody td:nth-child(5), 
+#almacenBody th:nth-child(5) {
+    width: 140px; /* Ajusta el ancho según sea necesario */
+}
+
+/* Ajustar el ancho de la columna Entrada en la tabla de almacén */
+#almacenBody td:nth-child(6), 
+#almacenBody th:nth-child(6) {
+    width: 90px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna Salida en la tabla de almacén */
+#almacenBody td:nth-child(7), 
+#almacenBody th:nth-child(7) {
+    width: 90px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna Importe en la tabla de almacén */
+#almacenBody td:nth-child(8), 
+#almacenBody th:nth-child(8) {
+    width: 120px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna de acciones en la tabla de almacen */
+#almacenBody td:last-child, 
+#almacenBody th:last-child {
+    width: 110px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna de acciones en la tabla de trabajadores */
+#trabajadoresBody td:last-child, 
+#trabajadoresBody th:last-child {
+    width: 110px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna de acciones en la tabla de caja */
+#cajaBody td:last-child, 
+#cajaBody th:last-child {
+    width: 190px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
+
+/* Ajustar el ancho de la columna ID en las tablas */
+#clientesBody td:first-child, 
+#clientesBody th:first-child,
+#almacenBody td:first-child, 
+#almacenBody th:first-child,
+#trabajadoresBody td:first-child, 
+#trabajadoresBody th:first-child,
+#cajaBody td:first-child, 
+#cajaBody th:first-child {
+    width: 50px; /* Ajusta el ancho según sea necesario */
+    text-align: center;
+}
