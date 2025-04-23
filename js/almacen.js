@@ -8,6 +8,7 @@ import {
     loadDataFromLocalStorage,
     formatCurrency
 } from './utils.js';
+import { showExportOptions } from './utils.js';
 import { renderTable } from './app.js';
 import { setupModalFields, showDeleteConfirmationModal } from './modals.js';
 
@@ -272,20 +273,13 @@ export function buscarProductos(termino) {
 }
 
 /**
- * Exporta los productos a un archivo JSON
+ * Exporta los productos en diferentes formatos
  */
 export function exportarProductos() {
-    const productos = loadDataFromLocalStorage('almacenData');
-    const dataStr = JSON.stringify(productos, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = `almacen_${new Date().toISOString().slice(0,10)}.json`;
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
+    showExportOptions('almacenData', 'almacen', 'Reporte de Almacén');
 }
+
+
 
 /**
  * Muestra un reporte de stock crítico (productos con bajo stock)

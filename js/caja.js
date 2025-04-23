@@ -9,6 +9,7 @@ import {
     generarCodigoUnico,
     formatCurrency
 } from './utils.js';
+import { showExportOptions } from './utils.js';
 import { renderTable } from './app.js';
 import { setupModalFields, showDeleteConfirmationModal } from './modals.js';
 
@@ -389,19 +390,10 @@ export function verDetalleCaja(index) {
 }
 
 /**
- * Exporta los movimientos de caja a un archivo JSON
+ * Exporta los movimientos de caja en diferentes formatos
  */
 export function exportarCaja() {
-    const cajaData = loadDataFromLocalStorage('cajaData');
-    const dataStr = JSON.stringify(cajaData, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = `caja_${new Date().toISOString().slice(0,10)}.json`;
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
+    showExportOptions('cajaData', 'caja', 'Reporte de Caja');
 }
 
 /**

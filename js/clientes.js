@@ -11,6 +11,7 @@ import {
     validarTelefono,
     formatDate
 } from './utils.js';
+import { showExportOptions } from './utils.js';
 import { renderTable } from './app.js';
 import { setupModalFields, showDeleteConfirmationModal } from './modals.js';
 
@@ -30,38 +31,33 @@ export function actualizarCacheClientes() {
  * @returns {boolean} True si los datos son válidos
  */
 function validarCliente(cliente) {
-    // Validar DNI
-    if (!validarDNI(cliente.dni)) {
-        Swal.fire('Error', 'El DNI debe tener 8 dígitos numéricos', 'error');
-        document.getElementById('modalInputDNI').classList.add('is-invalid');
-        return false;
-    }
+    // if (!validarDNI(cliente.dni)) {
+    //     Swal.fire('Error', 'El DNI debe tener 8 dígitos numéricos', 'error');
+    //     document.getElementById('modalInputDNI').classList.add('is-invalid');
+    //     return false;
+    // }
 
-    // Validar nombre
     if (!cliente.nombre || cliente.nombre.trim().length < 3) {
-        Swal.fire('Error', 'El nombre debe tener al menos 3 caracteres', 'error');
-        document.getElementById('modalInputNombre').classList.add('is-invalid');
+        //Swal.fire('Error', 'El nombre debe tener al menos 3 caracteres', 'error');
+        //document.getElementById('modalInputNombre').classList.add('is-invalid');
         return false;
     }
 
-    // Validar teléfono (no requerido pero si existe debe ser válido)
     if (cliente.telefono && !validarTelefono(cliente.telefono)) {
-        Swal.fire('Error', 'El teléfono debe tener entre 7 y 12 dígitos', 'error');
-        document.getElementById('modalInputTelefono').classList.add('is-invalid');
+        //Swal.fire('Error', 'El teléfono debe tener entre 7 y 12 dígitos', 'error');
+        //document.getElementById('modalInputTelefono').classList.add('is-invalid');
         return false;
     }
 
-    // Validar RUC si existe
     if (cliente.ruc && !validarRUC(cliente.ruc)) {
-        Swal.fire('Error', 'El RUC debe tener 11 dígitos numéricos', 'error');
-        document.getElementById('modalInputRUC').classList.add('is-invalid');
+        //Swal.fire('Error', 'El RUC debe tener 11 dígitos numéricos', 'error');
+        //document.getElementById('modalInputRUC').classList.add('is-invalid');
         return false;
     }
 
-    // Validar dirección
     if (!cliente.direccion || cliente.direccion.trim().length < 5) {
-        Swal.fire('Error', 'La dirección debe tener al menos 5 caracteres', 'error');
-        document.getElementById('modalInputDireccion').classList.add('is-invalid');
+        //Swal.fire('Error', 'La dirección debe tener al menos 5 caracteres', 'error');
+        //document.getElementById('modalInputDireccion').classList.add('is-invalid');
         return false;
     }
 
@@ -72,7 +68,7 @@ function validarCliente(cliente) {
  * Agrega un nuevo cliente al sistema
  */
 export function agregarCliente() {
-    const dni = document.getElementById('modalInputDNI').value.trim();
+    const dni = document.getElementById('modalInputDNI').value.trim().replace(/\s+/g, ''); // Limpia espacios
     const nombre = document.getElementById('modalInputNombre').value.trim();
 
     // Verificar primero si el DNI ya existe
@@ -80,7 +76,6 @@ export function agregarCliente() {
     const dniExistente = clientes.some(cliente => cliente.dni === dni);
 
     if (dniExistente) {
-        // Mostrar qué cliente tiene ese DNI
         const clienteExistente = clientes.find(cliente => cliente.dni === dni);
         Swal.fire({
             icon: 'error',
@@ -112,7 +107,6 @@ export function agregarCliente() {
     const resultado = saveDataToLocalStorage('clientesData', clientes);
 
     if (resultado) {
-        // Actualizar la caché de clientes
         actualizarCacheClientes();
 
         Swal.fire({
@@ -123,12 +117,10 @@ export function agregarCliente() {
             showConfirmButton: false
         });
 
-        // Cerrar el modal y limpiar el formulario
         const modal = bootstrap.Modal.getInstance(document.getElementById('addDataModal'));
         modal.hide();
         document.getElementById('modalForm').reset();
 
-        // Renderizar la tabla actualizada
         renderTable('clientesData', '#clientesBody');
         return true;
     }
@@ -285,16 +277,7 @@ export function buscarClientes(termino) {
  * Exporta los clientes a un archivo JSON
  */
 export function exportarClientes() {
-    const clientes = loadDataFromLocalStorage('clientesData');
-    const dataStr = JSON.stringify(clientes, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = `clientes_${new Date().toISOString().slice(0,10)}.json`;
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
+    showExportOptions('clientesData', 'clientes', 'Reporte de Clientes');
 }
 
 /**

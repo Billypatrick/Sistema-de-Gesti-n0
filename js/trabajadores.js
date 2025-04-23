@@ -9,6 +9,7 @@ import {
     generarNumeroTrabajadorUnico,
     formatDate
 } from './utils.js';
+import { showExportOptions } from './utils.js';
 import { renderTable } from './app.js';
 import { setupModalFields, showDeleteConfirmationModal } from './modals.js';
 
@@ -255,19 +256,10 @@ export function buscarTrabajadores(termino) {
 }
 
 /**
- * Exporta los trabajadores a un archivo JSON
+ * Exporta los trabajadores en diferentes formatos
  */
 export function exportarTrabajadores() {
-    const trabajadores = loadDataFromLocalStorage('trabajadoresData');
-    const dataStr = JSON.stringify(trabajadores, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = `trabajadores_${new Date().toISOString().slice(0,10)}.json`;
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
+    showExportOptions('trabajadoresData', 'trabajadores', 'Reporte de Trabajadores');
 }
 
 /**

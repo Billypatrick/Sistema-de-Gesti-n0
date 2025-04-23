@@ -127,9 +127,9 @@ export function formatDate(date) {
  */
 export function validarDNI(dni) {
     if (!dni) return false;
-    const dniStr = dni.toString().trim();
-    if (dniStr.length !== 8) return false;
-    if (!/^\d+$/.test(dniStr)) return false;
+    const dniStr = dni.toString().trim().replace(/\s+/g, ''); // Elimina espacios adicionales
+    if (dniStr.length !== 8) return false; // Verifica que tenga exactamente 8 caracteres
+    if (!/^\d{8}$/.test(dniStr)) return false; // Verifica que sean exactamente 8 dígitos numéricos
     return true;
 }
 
@@ -316,6 +316,144 @@ export function importFromJSON(file, key) {
         };
         
         reader.readAsText(file);
+    });
+}
+
+
+// Agrega esto al final de utils.js
+
+/**
+ * Exporta datos a formato CSV
+ * @param {array} data - Datos a exportar
+ * @param {string} fileName - Nombre del archivo
+ */
+export function exportToCSV(data, fileName) {
+    if (!data || data.length === 0) {
+        Swal.fire('Error', 'No hay datos para exportar', 'error');
+        return;
+    }
+
+    const headers = Object.keys(data[0]);
+    let csvContent = headers.join(';') + '\n';
+    
+    data.forEach(item => {
+        const row = headers.map(header => {
+            let value = item[header] || '';
+            if (typeof value === 'string') {
+                value = `"${value.replace(/"/g, '""')}"`;
+            }
+            return value;
+        });
+        csvContent += row.join(';') + '\n';
+    });
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${fileName}.csv`);
+    link.click();
+}
+
+/**
+ * Exporta datos a Excel (XLSX)
+ * @param {array} data - Datos a exportar
+ * @param {string} fileName - Nombre del archivo
+ */
+// filepath: c:\Users\PC\Desktop\Proyectos con Codigo\Sistema de [utils.js](http://_vscodecontentref_/1)
+export function exportToExcel(data, fileName) {
+    try {
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Datos");
+        XLSX.writeFile(workbook, `${fileName}.xlsx`);
+    } catch (error) {
+        console.error('Error al exportar a Excel:', error);
+        Swal.fire('Error', 'No se pudo exportar a Excel', 'error');
+    }
+}
+
+/**
+ * Exporta datos a PDF
+ * @param {array} data - Datos a exportar
+ * @param {string} fileName - Nombre del archivo
+ * @param {string} title - Título del reporte
+ */
+
+export function exportToPDF(data, fileName, title) {
+    try {
+        const doc = new jsPDF(); // Usa el objeto global jsPDF
+        doc.text(title, 14, 10);
+
+        const headers = Object.keys(data[0]);
+        const rows = data.map(item => headers.map(header => item[header] || ''));
+
+        doc.autoTable({
+            head: [headers],
+            body: rows,
+            startY: 20,
+            styles: { fontSize: 8 }
+        });
+
+        doc.save(`${fileName}.pdf`);
+    } catch (error) {
+        console.error('Error al exportar a PDF:', error);
+        Swal.fire('Error', 'No se pudo exportar a PDF', 'error');
+    }
+}
+
+/**
+ * Muestra diálogo para seleccionar formato de exportación
+ * @param {string} key - Clave de los datos en localStorage
+ * @param {string} defaultName - Nombre base del archivo
+ * @param {string} title - Título para el PDF
+ */
+export function showExportOptions(key, defaultName, title = 'Reporte') {
+    const data = loadDataFromLocalStorage(key);
+    if (!data || data.length === 0) {
+        Swal.fire('Error', 'No hay datos para exportar', 'error');
+        return;
+    }
+
+    Swal.fire({
+        title: 'Exportar datos',
+        html: `
+            <div class="export-options">
+                <button class="btn btn-export btn-json" data-format="json">
+                    <i class="fas fa-file-code"></i> JSON
+                </button>
+                <button class="btn btn-export btn-csv" data-format="csv">
+                    <i class="fas fa-file-csv"></i> CSV
+                </button>
+                <button class="btn btn-export btn-excel" data-format="excel">
+                    <i class="fas fa-file-excel"></i> Excel
+                </button>
+                <button class="btn btn-export btn-pdf" data-format="pdf">
+                    <i class="fas fa-file-pdf"></i> PDF
+                </button>
+            </div>
+        `,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        didOpen: () => {
+            document.querySelector('.btn-json').addEventListener('click', () => {
+                exportToJSON(key, defaultName);
+                Swal.close();
+            });
+            document.querySelector('.btn-csv').addEventListener('click', () => {
+                exportToCSV(data, defaultName);
+                Swal.close();
+            });
+            document.querySelector('.btn-excel').addEventListener('click', () => {
+                exportToExcel(data, defaultName);
+                Swal.close();
+            });
+            document.querySelector('.btn-pdf').addEventListener('click', () => {
+                exportToPDF(data, defaultName, title);
+                Swal.close();
+            });
+        }
     });
 }
 

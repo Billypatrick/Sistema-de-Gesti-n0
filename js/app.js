@@ -11,6 +11,7 @@ import {
     formatCurrency,
     formatDate
 } from './utils.js';
+import { showExportOptions } from './utils.js';
 import { setupModalFields, showDeleteConfirmationModal } from './modals.js';
 
 // Variables globales para caché
@@ -471,10 +472,10 @@ function initEventListeners() {
         if (!activeSection) return;
 
         const exportHandlers = {
-            'clientes': () => window.exportarClientes?.(),
-            'almacen': () => window.exportarProductos?.(),
-            'trabajadores': () => window.exportarTrabajadores?.(),
-            'caja': () => window.exportarCaja?.()
+            'clientes': () => showExportOptions('clientesData', 'clientes', 'Reporte de Clientes'),
+            'almacen': () => showExportOptions('almacenData', 'almacen', 'Reporte de Almacén'),
+            'trabajadores': () => showExportOptions('trabajadoresData', 'trabajadores', 'Reporte de Trabajadores'),
+            'caja': () => showExportOptions('cajaData', 'caja', 'Reporte de Caja')
         };
 
         exportHandlers[activeSection.id]?.();

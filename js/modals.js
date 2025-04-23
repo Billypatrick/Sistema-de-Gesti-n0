@@ -19,8 +19,8 @@ export const modalFieldMap = {
             validation: (input) => {
                 input.setAttribute('maxlength', '8');
                 input.setAttribute('pattern', '\\d{8}');
-                input.setAttribute('title', 'Debe contener 8 dígitos');
-                input.setAttribute('oninput', "this.value = this.value.replace(/[^0-9]/g, '')");
+                input.setAttribute('title', 'Debe contener exactamente 8 dígitos numéricos');
+                input.setAttribute('oninput', "this.value = this.value.replace(/[^0-9]/g, '')"); // Solo números
             }
         },
         { 
@@ -405,21 +405,16 @@ export function showEditModal(key, index) {
         return;
     }
 
-    // Configurar campos según el tipo de datos
-    const fields = getEditFieldsForSection(key, item);
-    setupModalFields(key.split('Data')[0].toLowerCase(), 'edit');
-    
+    // Configurar campos dinámicos para el modal de edición
+    const section = key.replace('Data', '').toLowerCase();
+    setupModalFields(section, 'edit');
+
     // Llenar los campos con los datos existentes
+    const fields = modalFieldMap[section];
     fields.forEach(field => {
-        const input = document.getElementById(field.id);
+        const input = document.getElementById(field.id.replace('modalInput', 'editInput'));
         if (input) {
-            input.value = field.value || '';
-            
-            // Configuraciones especiales para campos de solo lectura
-            if (field.readOnly) {
-                input.readOnly = true;
-                input.style.backgroundColor = '#f8f9fa';
-            }
+            input.value = item[field.id.replace('modalInput', '').toLowerCase()] || '';
         }
     });
 
@@ -553,7 +548,6 @@ export function handleSaveEditData() {
     const index = parseInt(document.getElementById('editRowIndex').value, 10);
     const data = loadDataFromLocalStorage(key);
     
-    // Validar que los datos existen
     if (!data || !data[index]) {
         Swal.fire('Error', 'No se encontraron los datos para editar', 'error');
         return;
@@ -579,7 +573,8 @@ export function handleSaveEditData() {
         showConfirmButton: false
     });
 
-    return true;
+    // Actualizar la tabla
+    renderTable(key, `#${key.replace('Data', 'Body')}`);
 }
 
 /**
