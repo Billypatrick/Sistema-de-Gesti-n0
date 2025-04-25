@@ -477,31 +477,29 @@ export function generarReporteCierres() {
 
 /**
  * Inicializa los event listeners para la sección de caja
- */
+     */
 function initCajaEventListeners() {
-    // Guardar nuevo movimiento
-    document.getElementById('saveModalData')?.addEventListener('click', function() {
-        const activeSection = document.querySelector('.content-section:not(.d-none)');
-        if (activeSection && activeSection.id === 'caja') {
-            agregarMovimientoCaja();
-        }
-    });
+    const saveButton = document.getElementById('saveModalData');
 
-    // Exportar movimientos
-    document.getElementById('exportData')?.addEventListener('click', function() {
-        const activeSection = document.querySelector('.content-section:not(.d-none)');
-        if (activeSection && activeSection.id === 'caja') {
-            exportarCaja();
-        }
-    });
+    // Eliminar cualquier listener existente
+    saveButton?.removeEventListener('click', handleSaveCaja);
 
-    // Generar reporte de cierres
-    document.getElementById('btnReporteCierres')?.addEventListener('click', generarReporteCierres);
+    // Agregar el listener
+    saveButton?.addEventListener('click', handleSaveCaja);
 }
 
-// Inicialización del módulo
-actualizarCacheCaja();
-initCajaEventListeners();
+// Función manejadora para guardar una nueva caja
+function handleSaveCaja() {
+    const activeSection = document.querySelector('.content-section:not(.d-none)');
+    if (activeSection && activeSection.id === 'caja') {
+        agregarMovimientoCaja();
+    }
+}
+
+export function initCajaModule() {
+    actualizarCacheCaja();
+    initCajaEventListeners();
+}
 
 // Hacer funciones disponibles globalmente para eventos en HTML
 window.agregarMovimientoCaja = agregarMovimientoCaja;

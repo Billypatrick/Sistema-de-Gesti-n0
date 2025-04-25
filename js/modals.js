@@ -70,9 +70,34 @@ export const modalFieldMap = {
         { 
             id: 'modalInputProducto', 
             label: 'Producto', 
-            type: 'text', 
+            type: 'select', // Cambiado de 'text' a 'select'
             required: true,
-            validation: (input) => input.setAttribute('maxlength', '100')
+            options: ['Cacao', 'Café', 'Otros'], // Opciones disponibles
+            validation: (input) => {
+                input.setAttribute('required', 'true'); // Asegura que sea obligatorio
+            }
+        },
+        { 
+            id: 'modalInputPeso', 
+            label: 'Peso (kg)', 
+            type: 'number', 
+            required: true,
+            validation: (input) => {
+                input.setAttribute('min', '0');
+                input.setAttribute('step', '0.01');
+                input.value = '0.00';
+            }
+        },
+        { 
+            id: 'modalInputEntrada', 
+            label: 'Entrada', 
+            type: 'number', 
+            required: true,
+            validation: (input) => {
+                input.setAttribute('min', '0');
+                input.setAttribute('step', '1');
+                input.value = '0';
+            }
         },
         {
             id: 'modalInputDescripcion',
@@ -96,24 +121,13 @@ export const modalFieldMap = {
         },
         { 
             id: 'modalInputPrecio', 
-            label: 'Precio Unitario', 
+            label: 'Precio', 
             type: 'number', 
             required: true,
             validation: (input) => {
                 input.setAttribute('min', '0');
                 input.setAttribute('step', '0.01');
                 input.value = '0.00';
-            }
-        },
-        { 
-            id: 'modalInputEntrada', 
-            label: 'Entrada', 
-            type: 'number', 
-            required: true,
-            validation: (input) => {
-                input.setAttribute('min', '0');
-                input.setAttribute('step', '1');
-                input.value = '0';
             }
         },
         { 
@@ -410,11 +424,27 @@ export function showEditModal(key, index) {
     setupModalFields(section, 'edit');
 
     // Llenar los campos con los datos existentes
-    const fields = modalFieldMap[section];
+    const fields = getEditFieldsForSection(key, item);
     fields.forEach(field => {
-        const input = document.getElementById(field.id.replace('modalInput', 'editInput'));
+        const input = document.getElementById(field.id);
         if (input) {
-            input.value = item[field.id.replace('modalInput', '').toLowerCase()] || '';
+            input.value = field.value || '';
+            
+            // Configuraciones adicionales para campos específicos
+            if (field.type === 'select' && field.options) {
+                if (!field.options.includes(field.value) && field.value) {
+                    const option = document.createElement('option');
+                    option.value = field.value;
+                    option.textContent = field.value;
+                    option.selected = true;
+                    input.appendChild(option);
+                }
+            }
+            
+            if (field.readOnly) {
+                input.readOnly = true;
+                input.style.backgroundColor = '#f8f9fa';
+            }
         }
     });
 
@@ -426,6 +456,9 @@ export function showEditModal(key, index) {
     const editModal = new bootstrap.Modal(document.getElementById('editDataModal'));
     editModal.show();
 }
+
+// Registrar la función globalmente
+window.showEditModal = showEditModal;
 
 /**
  * Obtiene los campos de edición para una sección específica
@@ -458,17 +491,8 @@ function getEditFieldsForSection(key, item) {
                 }
             },
             { 
-                id: 'editInputEntrada', 
-                value: '0',
-                validation: (input) => {
-                    input.type = 'number';
-                    input.min = '0';
-                    input.step = '1';
-                }
-            },
-            { 
-                id: 'editInputSalida', 
-                value: '0',
+                id: 'editInputStock', 
+                value: item.stock,
                 validation: (input) => {
                     input.type = 'number';
                     input.min = '0';
@@ -498,40 +522,6 @@ function getEditFieldsForSection(key, item) {
                     input.type = 'number';
                     input.min = '18';
                     input.max = '100';
-                }
-            }
-        ],
-        'caja': [
-            { id: 'editInputDescripcion', value: item.descripcion },
-            { 
-                id: 'editInputMontoApertura', 
-                value: item.montoApertura,
-                validation: (input) => {
-                    input.type = 'number';
-                    input.step = '0.01';
-                    input.min = '0';
-                    input.readOnly = item.estado === 'Cerrado';
-                }
-            },
-            {
-                id: 'editInputMontoDisponible',
-                value: item.montoDisponible || item.montoApertura,
-                validation: (input) => {
-                    input.type = 'number';
-                    input.step = '0.01';
-                    input.min = '0';
-                    input.readOnly = true;
-                    input.style.backgroundColor = '#f8f9fa';
-                }
-            },
-            {
-                id: 'editInputMontoCierre',
-                value: item.montoCierre || '0.00',
-                validation: (input) => {
-                    input.type = 'number';
-                    input.step = '0.01';
-                    input.min = '0';
-                    input.readOnly = item.estado !== 'Cerrado';
                 }
             }
         ]

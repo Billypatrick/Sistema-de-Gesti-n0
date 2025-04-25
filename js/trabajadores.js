@@ -347,9 +347,10 @@ function initTrabajadoresEventListeners() {
     document.getElementById('btnReporteAreas')?.addEventListener('click', generarReporteAreas);
 }
 
-// Inicialización del módulo
-actualizarCacheTrabajadores();
-initTrabajadoresEventListeners();
+export function initTrabajadoresModule() {
+    actualizarCacheTrabajadores();
+    initTrabajadoresEventListeners();
+}
 
 // Hacer funciones disponibles globalmente para eventos en HTML
 window.agregarTrabajador = agregarTrabajador;

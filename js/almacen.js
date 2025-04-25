@@ -86,6 +86,7 @@ export function agregarProducto() {
         producto: document.getElementById('modalInputProducto').value.trim(),
         descripcion: document.getElementById('modalInputDescripcion').value.trim(),
         stock: document.getElementById('modalInputStock').value.trim(),
+        peso: document.getElementById('modalInputPeso').value.trim(),
         precio: document.getElementById('modalInputPrecio').value.trim(),
         entrada: document.getElementById('modalInputEntrada').value.trim(),
         salida: document.getElementById('modalInputSalida').value.trim(),
@@ -134,6 +135,7 @@ export function editarProducto(index) {
     const productos = loadDataFromLocalStorage('almacenData');
     const producto = productos[index];
 
+    
     if (!producto) {
         Swal.fire('Error', 'No se encontró el producto a editar', 'error');
         return false;
@@ -157,6 +159,7 @@ export function editarProducto(index) {
         producto: document.getElementById('editInputProducto').value.trim(),
         descripcion: document.getElementById('editInputDescripcion').value.trim(),
         precio: parseFloat(document.getElementById('editInputPrecio').value || 0).toFixed(2),
+        peso: document.getElementById('editInputPeso').value.trim(),
         entrada: entrada,
         salida: salida,
         stock: (stockActual + entrada - salida).toString(),
@@ -369,9 +372,10 @@ function initAlmacenEventListeners() {
     });
 }
 
-// Inicialización del módulo
-actualizarCacheAlmacen();
-initAlmacenEventListeners();
+export function initAlmacenModule() {
+    actualizarCacheAlmacen();
+    initAlmacenEventListeners();
+}
 
 // Hacer funciones disponibles globalmente para eventos en HTML
 window.agregarProducto = agregarProducto;

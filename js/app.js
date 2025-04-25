@@ -93,6 +93,7 @@ function renderAlmacenTable(data, tableBody) {
             <td>${item.producto || ''}</td>
             <td>${item.descripcion || ''}</td>
             <td>${item.stock || '0'}</td>
+            <td>${item.peso || '0'} kg</td>
             <td>${formatCurrency(item.precio || 0)}</td>
             <td>${item.entrada || '0'}</td>
             <td>${item.salida || '0'}</td>
@@ -192,30 +193,20 @@ window.editRow = function(key, index, tableBodyId) {
         return;
     }
 
-    // Configurar campos según el tipo de datos
-    const fields = getEditFieldsForSection(key, item);
-    setupModalFields(key.split('Data')[0].toLowerCase(), 'edit');
+    // Mostrar el modal de edición
+    showEditModal(key, index);
     
-    // Llenar los campos con los datos existentes
-    fields.forEach(field => {
-        const input = document.getElementById(field.id);
-        if (input) {
-            input.value = field.value || '';
-            
-            if (field.readOnly) {
-                input.readOnly = true;
-                input.style.backgroundColor = '#f8f9fa';
-            }
-        }
-    });
-
-    // Establecer los valores ocultos
-    document.getElementById('editRowIndex').value = index;
-    document.getElementById('editTableKey').value = key;
-
-    // Mostrar el modal
-    const editModal = new bootstrap.Modal(document.getElementById('editDataModal'));
-    editModal.show();
+    // Configurar el título del modal según la sección
+    const modalTitle = document.getElementById('editDataModalLabel');
+    if (modalTitle) {
+        const titles = {
+            'clientesData': 'Editar Cliente',
+            'almacenData': 'Editar Producto',
+            'trabajadoresData': 'Editar Trabajador',
+            'cajaData': 'Editar Movimiento de Caja'
+        };
+        modalTitle.textContent = titles[key] || 'Editar Registro';
+    }
 };
 
 /**
@@ -482,6 +473,15 @@ function initEventListeners() {
     });
 }
 
+function initAllModules() {
+    // Inicializar cada módulo si existe
+    if (window.initAlmacenModule) initAlmacenModule();
+    if (window.initClientesModule) initClientesModule();
+    if (window.initTrabajadoresModule) initTrabajadoresModule();
+    if (window.initCajaModule) initCajaModule();
+}
+
+
 /**
  * Inicializa la aplicación
  */
@@ -491,11 +491,16 @@ function initApp() {
     // Ejecutar migraciones si es necesario
     ejecutarMigraciones();
     
-    // Cargar datos iniciales
-    actualizarCaches();
+    // Cargar datos iniciales (solo una vez)
+    clientesCache = loadDataFromLocalStorage('clientesData') || [];
+    trabajadoresCache = loadDataFromLocalStorage('trabajadoresData') || [];
+    almacenCache = loadDataFromLocalStorage('almacenData') || [];
+    cajaCache = loadDataFromLocalStorage('cajaData') || [];
     
     // Configurar event listeners
     initEventListeners();
+
+    initAllModules();
 
     // Renderizar todas las tablas con datos existentes
     renderTable('clientesData', '#clientesBody');

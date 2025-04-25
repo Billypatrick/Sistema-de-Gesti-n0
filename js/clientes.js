@@ -306,9 +306,10 @@ function initClientesEventListeners() {
     });
 }
 
-// Inicialización del módulo
-actualizarCacheClientes();
-initClientesEventListeners();
+export function initClientesModule() {
+    actualizarCacheClientes();
+    initClientesEventListeners();
+}
 
 // Hacer funciones disponibles globalmente para eventos en HTML
 window.agregarCliente = agregarCliente;

@@ -457,8 +457,3 @@ export function showExportOptions(key, defaultName, title = 'Reporte') {
     });
 }
 
-// Inicializar cachés al cargar el módulo
-actualizarCacheClientes();
-actualizarCacheTrabajadores();
-actualizarCacheAlmacen();
-ejecutarMigraciones();
