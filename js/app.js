@@ -471,6 +471,148 @@ function initEventListeners() {
 
         exportHandlers[activeSection.id]?.();
     });
+
+     // Buscar en las tablas
+     document.getElementById('searchClientes')?.addEventListener('input', function () {
+        buscarEnTabla('clientesData', this.value, '#clientesBody');
+    });
+
+    document.getElementById('searchAlmacen')?.addEventListener('input', function () {
+        buscarEnTabla('almacenData', this.value, '#almacenBody');
+    });
+
+    document.getElementById('searchTrabajadores')?.addEventListener('input', function () {
+        buscarEnTabla('trabajadoresData', this.value, '#trabajadoresBody');
+    });
+
+    document.getElementById('searchCaja')?.addEventListener('input', function () {
+        buscarEnTabla('cajaData', this.value, '#cajaBody');
+    });
+
+}
+
+function buscarEnTabla(key, termino, tableBodyId) {
+    const data = loadDataFromLocalStorage(key);
+    const tableBody = document.querySelector(tableBodyId);
+
+    if (!tableBody) {
+        console.error(`❌ No se encontró el elemento: ${tableBodyId}`);
+        return;
+    }
+
+    // Si no hay término de búsqueda, renderiza toda la tabla
+    if (!termino) {
+        renderTable(key, tableBodyId);
+        return;
+    }
+
+    // Filtrar los datos según el término de búsqueda
+    const terminoLower = termino.toLowerCase();
+    const resultados = data.filter((item) => {
+        return Object.values(item).some((value) =>
+            value?.toString().toLowerCase().includes(terminoLower)
+        );
+    });
+
+    // Renderizar los resultados
+    tableBody.innerHTML = '';
+    resultados.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = getRowHTML(key, item, index);
+        tableBody.appendChild(row);
+    });
+}
+
+// Función auxiliar para obtener el HTML de una fila según la tabla
+function getRowHTML(key, item, index) {
+    if (key === 'clientesData') {
+        return `
+            <td>${index + 1}</td>
+            <td>${item.dni || ''}</td>
+            <td>${item.nombre || ''}</td>
+            <td>${item.telefono || ''}</td>
+            <td>${item.ruc || ''}</td>
+            <td>${item.direccion || ''}</td>
+            <td>${item.referencia || ''}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" onclick="editRow('${key}', ${index}, '#clientesBody')">
+                    <i class="fas fa-pen-to-square"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="deleteRow('${key}', ${index}, '#clientesBody')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+    } else if (key === 'almacenData') {
+        const importeInventario = (item.stock * parseFloat(item.precio || 0)).toFixed(2);
+        return `
+            <td>${index + 1}</td>
+            <td>${item.producto || ''}</td>
+            <td>${item.descripcion || ''}</td>
+            <td>${item.stock || '0'}</td>
+            <td>${item.peso || '0'} kg</td>
+            <td>${formatCurrency(item.precio || 0)}</td>
+            <td>${item.entrada || '0'}</td>
+            <td>${item.salida || '0'}</td>
+            <td>${formatCurrency(importeInventario)}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" onclick="editRow('${key}', ${index}, '#almacenBody')">
+                    <i class="fas fa-pen-to-square"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="deleteRow('${key}', ${index}, '#almacenBody')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+    } else if (key === 'trabajadoresData') {
+        return `
+            <td>${index + 1}</td>
+            <td>${item.numeroTrabajador || ''}</td>
+            <td>${item.nombre || ''}</td>
+            <td>${item.cargo || ''}</td>
+            <td>${item.area || ''}</td>
+            <td>${item.sexo || ''}</td>
+            <td>${item.edad || ''}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" onclick="editRow('${key}', ${index}, '#trabajadoresBody')">
+                    <i class="fas fa-pen-to-square"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="deleteRow('${key}', ${index}, '#trabajadoresBody')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        `;
+    } else if (key === 'cajaData') {
+        return `
+            <td>${index + 1}</td>
+            <td>${item.codigo || ''}</td>
+            <td>${item.fecha || ''}</td>
+            <td>${item.descripcion || ''}</td>
+            <td>${formatCurrency(item.montoApertura || 0)}</td>
+            <td>${formatCurrency(item.montoDisponible || item.montoApertura || 0)}</td>
+            <td>${formatCurrency(item.montoCierre || 0)}</td>
+            <td class="text-white fw-bold ${item.estado === 'Cerrado' ? 'bg-danger' : 'bg-success'}">
+                ${item.estado || 'Abierto'}
+            </td>
+            <td>
+                <button class="btn btn-success btn-sm" onclick="verDetalleCaja(${index})">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="cargarCaja(${index})" ${item.estado === 'Cerrado' ? 'disabled' : ''}>
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="deleteRow('${key}', ${index}, '#cajaBody')">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <button class="btn btn-sm ${item.estado === 'Cerrado' ? 'btn-secondary opacity-50' : 'btn-dark'}" 
+                    onclick="${item.estado === 'Cerrado' ? '' : 'cerrarCaja(' + index + ')'}" 
+                    ${item.estado === 'Cerrado' ? 'disabled' : ''}>
+                    <i class="fas fa-lock"></i>
+                </button>
+            </td>
+        `;
+    }
+    return '';
 }
 
 function initAllModules() {
