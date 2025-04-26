@@ -536,11 +536,32 @@ main {
     text-align: center; /* Opcional: Centrar el contenido */
 }
 
+/* Ajustar el ancho de la columna Monto Apertura en la tabla de caja */
+#cajaBody td:nth-child(5),
+#cajaBody th:nth-child(5) {
+    width: 150px; /* Ajusta el ancho según sea necesario */
+    text-align: center; /* Centrar el contenido */
+}
+
+/* Ajustar el ancho de la columna Monto Disponible en la tabla de caja */
+#cajaBody td:nth-child(6),
+#cajaBody th:nth-child(6) {
+    width: 170px; /* Ajusta el ancho según sea necesario */
+    text-align: center; /* Opcional: Centrar el contenido */
+}
+
+/* Ajustar el ancho de la columna Monto Cierre en la tabla de caja */
+#cajaBody td:nth-child(7),
+#cajaBody th:nth-child(7) {
+    width: 130px; /* Ajusta el ancho según sea necesario */
+    text-align: center; /* Centrar el contenido */
+}
+
 /* Ajustar el ancho de la columna Fecha en la tabla de caja */
 #cajaBody td:nth-child(8),
 #cajaBody th:nth-child(8) {
     width: 120px; /* Ajusta el ancho según sea necesario */
-    text-align: center; /* Opcional: Centrar el contenido */
+    text-align: center; /* Centrar el contenido */
 }
 
 /* Ajustar el ancho de la columna de acciones en la tabla de caja */
