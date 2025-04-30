@@ -15,6 +15,36 @@ import {
 import { showExportOptions } from './utils.js';
 import { setupModalFields, showDeleteConfirmationModal } from './modals.js';
 
+
+const PAGE_SIZE = 20;
+const paginationMap = {
+    'clientesData': 'clientesPagination',
+    'almacenData': 'almacenPagination',
+    'trabajadoresData': 'trabajadoresPagination',
+    'cajaData': 'cajaPagination'
+};
+let currentPageMap = {
+    'clientesData': 1,
+    'almacenData': 1,
+    'trabajadoresData': 1,
+    'cajaData': 1
+};
+
+// Cambia de página
+window.goToPage = function(key, page) {
+    currentPageMap[key] = page;
+    renderTable(key, getTableBodyId(key));
+};
+
+function getTableBodyId(key) {
+    return {
+        'clientesData': '#clientesBody',
+        'almacenData': '#almacenBody',
+        'trabajadoresData': '#trabajadoresBody',
+        'cajaData': '#cajaBody'
+    }[key];
+}
+
 // Variables globales para caché
 let clientesCache = [];
 let trabajadoresCache = [];
@@ -29,25 +59,44 @@ let cajaCache = [];
 export function renderTable(key, tableBodyId) {
     const data = loadDataFromLocalStorage(key);
     const tableBody = document.querySelector(tableBodyId);
-    
-    if (!tableBody) {
-        console.error(`❌ No se encontró el elemento: ${tableBodyId}`);
-        return;
-    }
+    const paginationDiv = document.getElementById(paginationMap[key]);
+    if (!tableBody) return;
+
+    // Paginación
+    const page = currentPageMap[key] || 1;
+    const totalPages = Math.ceil(data.length / PAGE_SIZE);
+    const start = (page - 1) * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+    const pageData = data.slice(start, end);
 
     tableBody.innerHTML = '';
 
-    if (key === 'clientesData') {
-        renderClientesTable(data, tableBody);
-    } else if (key === 'almacenData') {
-        renderAlmacenTable(data, tableBody);
-    } else if (key === 'trabajadoresData') {
-        renderTrabajadoresTable(data, tableBody);
-    } else if (key === 'cajaData') {
-        renderCajaTable(data, tableBody);
-    }
+    // Renderiza según la tabla
+    if (key === 'clientesData') renderClientesTable(pageData, tableBody, start);
+    else if (key === 'almacenData') renderAlmacenTable(pageData, tableBody, start);
+    else if (key === 'trabajadoresData') renderTrabajadoresTable(pageData, tableBody, start);
+    else if (key === 'cajaData') renderCajaTable(pageData, tableBody, start);
 
-    console.log(`✅ Tabla renderizada: ${key}`);
+    // Renderiza la paginación
+    if (paginationDiv) {
+        paginationDiv.innerHTML = '';
+        if (totalPages > 1) {
+            let html = `<nav><ul class="pagination pagination-sm mb-0">`;
+            html += `<li class="page-item${page === 1 ? ' disabled' : ''}">
+                        <button class="page-link" onclick="goToPage('${key}',${page - 1})">&laquo;</button>
+                    </li>`;
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<li class="page-item${i === page ? ' active' : ''}">
+                            <button class="page-link" onclick="goToPage('${key}',${i})">${i}</button>
+                        </li>`;
+            }
+            html += `<li class="page-item${page === totalPages ? ' disabled' : ''}">
+                        <button class="page-link" onclick="goToPage('${key}',${page + 1})">&raquo;</button>
+                    </li>`;
+            html += `</ul></nav>`;
+            paginationDiv.innerHTML = html;
+        }
+    }
 }
 
 
@@ -56,13 +105,13 @@ export function renderTable(key, tableBodyId) {
 /**
  * Renderiza la tabla de clientes
  */
-function renderClientesTable(data, tableBody) {
+function renderClientesTable(data, tableBody, startIndex = 0) {
     tableBody.innerHTML = ''; // Limpia la tabla antes de renderizar
 
     data.forEach((item, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${index + 1}</td>
+            <td>${startIndex + index + 1}</td>
             <td>${item.dni || ''}</td>
             <td>${item.nombre || ''}</td>
             <td>${item.telefono || ''}</td>
@@ -80,17 +129,18 @@ function renderClientesTable(data, tableBody) {
         `;
         tableBody.appendChild(row);
     });
+    
 }
 
 /**
  * Renderiza la tabla de almacén
  */
-function renderAlmacenTable(data, tableBody) {
+function renderAlmacenTable(data, tableBody, startIndex = 0) {
     data.forEach((item, index) => {
         const importeInventario = (item.stock * parseFloat(item.precio || 0)).toFixed(2);
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${index + 1}</td>
+            <td>${startIndex + index + 1}</td>
             <td>${item.producto || ''}</td>
             <td class="d-none-tablet d-none-mobile">${item.descripcion || ''}</td>
             <td>${item.stock || '0'}</td>
@@ -115,11 +165,11 @@ function renderAlmacenTable(data, tableBody) {
 /**
  * Renderiza la tabla de trabajadores
  */
-function renderTrabajadoresTable(data, tableBody) {
+function renderTrabajadoresTable(data, tableBody, startIndex = 0) {
     data.forEach((item, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${index + 1}</td>
+            <td>${startIndex + index + 1}</td>
             <td>${item.numeroTrabajador || ''}</td>
             <td>${item.nombre || ''}</td>
             <td class="d-none-tablet d-none-mobile">${item.cargo || ''}</td>
@@ -142,11 +192,11 @@ function renderTrabajadoresTable(data, tableBody) {
 /**
  * Renderiza la tabla de caja
  */
-function renderCajaTable(data, tableBody) {
+function renderCajaTable(data, tableBody, startIndex = 0) {
     data.forEach((item, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${index + 1}</td>
+            <td>${startIndex + index + 1}</td>
             <td>${item.codigo || ''}</td>
             <td>${item.fecha || ''}</td>
             <td class="d-none-tablet d-none-mobile">${item.descripcion || ''}</td>
@@ -196,7 +246,10 @@ window.editRow = function(key, index, tableBodyId) {
 
     // Mostrar el modal de edición
     showEditModal(key, index, tableBodyId);
+    
 };
+
+
 
 /**
  * Obtiene los campos de edición para una sección específica
@@ -643,6 +696,8 @@ function initApp() {
     // Mostrar la sección de clientes por defecto
     navigateTo('clientes');
 }
+
+
 
 /**
  * Actualiza todas las cachés
