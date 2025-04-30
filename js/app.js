@@ -66,9 +66,9 @@ function renderClientesTable(data, tableBody) {
             <td>${item.dni || ''}</td>
             <td>${item.nombre || ''}</td>
             <td>${item.telefono || ''}</td>
-            <td class="d-none-tablet">${item.ruc || ''}</td>
+            <td class="d-none-tablet d-none-mobile">${item.ruc || ''}</td>
             <td>${item.direccion || ''}</td>
-            <td class="d-none-tablet">${item.referencia || ''}</td>
+            <td class="d-none-tablet d-none-mobile">${item.referencia || ''}</td>
             <td>
                 <button class="btn btn-warning btn-sm" onclick="editRow('clientesData', ${index}, '#clientesBody')">
                     <i class="fas fa-pen-to-square"></i>
@@ -92,12 +92,12 @@ function renderAlmacenTable(data, tableBody) {
         row.innerHTML = `
             <td>${index + 1}</td>
             <td>${item.producto || ''}</td>
-            <td class="d-none-tablet">${item.descripcion || ''}</td>
+            <td class="d-none-tablet d-none-mobile">${item.descripcion || ''}</td>
             <td>${item.stock || '0'}</td>
             <td>${item.peso || '0'} kg</td>
             <td>${formatCurrency(item.precio || 0)}</td>
-            <td class="d-none-tablet">${item.entrada || '0'}</td>
-            <td class="d-none-tablet">${item.salida || '0'}</td>
+            <td class="d-none-tablet d-none-mobile">${item.entrada || '0'}</td>
+            <td class="d-none-tablet d-none-mobile">${item.salida || '0'}</td>
             <td>${formatCurrency(importeInventario)}</td>
             <td>
                 <button class="btn btn-warning btn-sm" onclick="editRow('almacenData', ${index}, '#almacenBody')">
@@ -122,9 +122,9 @@ function renderTrabajadoresTable(data, tableBody) {
             <td>${index + 1}</td>
             <td>${item.numeroTrabajador || ''}</td>
             <td>${item.nombre || ''}</td>
-            <td class="d-none-tablet">${item.cargo || ''}</td>
-            <td class="d-none-tablet">${item.area || ''}</td>
-            <td class="d-none-tablet">${item.sexo || ''}</td>
+            <td class="d-none-tablet d-none-mobile">${item.cargo || ''}</td>
+            <td class="d-none-tablet d-none-mobile">${item.area || ''}</td>
+            <td class="d-none-tablet d-none-mobile">${item.sexo || ''}</td>
             <td>${item.edad || ''}</td>
             <td>
                 <button class="btn btn-warning btn-sm" onclick="editRow('trabajadoresData', ${index}, '#trabajadoresBody')">
