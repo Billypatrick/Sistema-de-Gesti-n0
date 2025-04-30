@@ -149,10 +149,10 @@ function renderCajaTable(data, tableBody) {
             <td>${index + 1}</td>
             <td>${item.codigo || ''}</td>
             <td>${item.fecha || ''}</td>
-            <th class="d-none-tablet d-none-mobile">${item.descripcion || ''}</td>
+            <td class="d-none-tablet d-none-mobile">${item.descripcion || ''}</td>
             <td>${formatCurrency(item.montoApertura || 0)}</td>
             <td>${formatCurrency(item.montoDisponible || item.montoApertura || 0)}</td>
-            <th class="d-none-tablet d-none-mobile">${formatCurrency(item.montoCierre || 0)}</td>
+            <td class="d-none-tablet d-none-mobile">${formatCurrency(item.montoCierre || 0)}</td>
             <td class="text-white fw-bold ${item.estado === 'Cerrado' ? 'bg-danger' : 'bg-success'}">
                 ${item.estado || 'Abierto'}
             </td>
@@ -577,10 +577,10 @@ function getRowHTML(key, item, index) {
             <td>${index + 1}</td>
             <td>${item.codigo || ''}</td>
             <td>${item.fecha || ''}</td>
-            <td>${item.descripcion || ''}</td>
+            <td class="d-none-tablet d-none-mobile">${item.descripcion || ''}</td>
             <td>${formatCurrency(item.montoApertura || 0)}</td>
             <td>${formatCurrency(item.montoDisponible || item.montoApertura || 0)}</td>
-            <td>${formatCurrency(item.montoCierre || 0)}</td>
+            <td class="d-none-tablet d-none-mobile">${formatCurrency(item.montoCierre || 0)}</td>
             <td class="text-white fw-bold ${item.estado === 'Cerrado' ? 'bg-danger' : 'bg-success'}">
                 ${item.estado || 'Abierto'}
             </td>

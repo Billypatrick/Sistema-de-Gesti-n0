@@ -684,7 +684,7 @@ main {
 
 @media (max-width: 599px) {
     #toggleSidebar {
-        left: 292px !important; /* Asegura que esté visible en móvil */
+        left: 250px !important;
         top: 10px;
         z-index: 1100;
         display: block !important;
