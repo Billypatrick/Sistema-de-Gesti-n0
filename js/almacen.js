@@ -3,6 +3,7 @@
  * Contiene todas las funciones relacionadas con la gestión de productos en el almacén
  */
 
+
 import { 
     saveDataToLocalStorage, 
     loadDataFromLocalStorage,
@@ -184,6 +185,11 @@ export function editarProducto(index) {
         modal.hide();
         renderTable('almacenData', '#almacenBody');
         
+        return true;
+    }
+
+    if (resultado) {
+        actualizarCacheAlmacen(); // Actualizar caché
         return true;
     }
 

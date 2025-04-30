@@ -3,6 +3,7 @@
  * Contiene todas las funciones relacionadas con la gestión de clientes
  */
 
+
 import { 
     saveDataToLocalStorage, 
     loadDataFromLocalStorage, 
@@ -185,6 +186,11 @@ export function editarCliente(index) {
         return true;
     }
 
+    if (resultado) {
+        actualizarCacheClientes(); // Actualizar caché
+        return true;
+    }
+    
     return false;
 }
 

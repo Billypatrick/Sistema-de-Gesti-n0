@@ -3,6 +3,7 @@
  * Contiene todas las funciones relacionadas con la gestión de movimientos de caja
  */
 
+
 import { 
     saveDataToLocalStorage, 
     loadDataFromLocalStorage,

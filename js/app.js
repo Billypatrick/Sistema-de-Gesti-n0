@@ -3,6 +3,7 @@
  * Contiene la lógica central y funciones compartidas por todos los módulos
  */
 
+
 import { 
     saveDataToLocalStorage, 
     loadDataFromLocalStorage,
@@ -194,19 +195,7 @@ window.editRow = function(key, index, tableBodyId) {
     }
 
     // Mostrar el modal de edición
-    showEditModal(key, index);
-    
-    // Configurar el título del modal según la sección
-    const modalTitle = document.getElementById('editDataModalLabel');
-    if (modalTitle) {
-        const titles = {
-            'clientesData': 'Editar Cliente',
-            'almacenData': 'Editar Producto',
-            'trabajadoresData': 'Editar Trabajador',
-            'cajaData': 'Editar Movimiento de Caja'
-        };
-        modalTitle.textContent = titles[key] || 'Editar Registro';
-    }
+    showEditModal(key, index, tableBodyId);
 };
 
 /**
@@ -362,7 +351,7 @@ window.deleteRow = function(key, index, tableBodyId) {
  * Navega entre las diferentes secciones de la aplicación
  * @param {string} sectionId - ID de la sección a mostrar
  */
-window.navigateTo = function(sectionId) {
+window.navigateTo = function (sectionId) {
     // Ocultar todas las secciones
     document.querySelectorAll('.content-section').forEach(section => {
         section.classList.add('d-none');
@@ -386,13 +375,15 @@ window.navigateTo = function(sectionId) {
         sectionTitle.textContent = titles[sectionId] || sectionId;
     }
 
-    // Resaltar el botón activo en el sidebar
+    // Resaltar el botón activo en el sidebar y deshabilitarlo
     document.querySelectorAll('.btn-navegacion').forEach(btn => {
-        btn.classList.remove('btn-active');
+        btn.classList.remove('btn-active'); // Elimina la clase activa de todos los botones
+        btn.disabled = false; // Habilita todos los botones
     });
     const activeButton = document.querySelector(`button[onclick="navigateTo('${sectionId}')"]`);
     if (activeButton) {
-        activeButton.classList.add('btn-active');
+        activeButton.classList.add('btn-active'); // Añade la clase activa al botón correspondiente
+        activeButton.disabled = true; // Deshabilita el botón activo
     }
 
     // Renderizar la tabla correspondiente

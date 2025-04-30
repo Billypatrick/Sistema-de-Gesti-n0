@@ -153,13 +153,6 @@ export const modalFieldMap = {
                 input.setAttribute('oninput', "this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]/g, '')");
             }
         },
-        { 
-            id: 'modalInputCargo', 
-            label: 'Cargo', 
-            type: 'text', 
-            required: true,
-            validation: (input) => input.setAttribute('maxlength', '50')
-        },
         {
             id: 'modalInputArea',
             label: 'Área',
@@ -184,6 +177,13 @@ export const modalFieldMap = {
                 input.setAttribute('max', '100');
                 input.value = '18';
             }
+        },
+        { 
+            id: 'modalInputCargo', 
+            label: 'Cargo', 
+            type: 'text', 
+            required: true,
+            validation: (input) => input.setAttribute('maxlength', '50')
         }
     ],
     'caja': [
@@ -285,20 +285,18 @@ export function createModalInput(field) {
 export function setupModalFields(sectionId, modalType = 'add') {
     const formId = modalType === 'add' ? 'modalForm' : 'editDataForm';
     const form = document.getElementById(formId);
-    
+
     if (!form) {
         console.error(`❌ No se encontró el formulario: ${formId}`);
         return;
     }
 
-    // Limpiar formulario existente
     form.innerHTML = '';
 
     // Crear contenedor principal con dos columnas
     const container = document.createElement('div');
-    container.className = 'row g-3'; // row con gutter vertical de 3
+    container.className = 'row g-3';
 
-    // Crear columnas
     const leftCol = document.createElement('div');
     leftCol.className = 'col-md-6';
     const rightCol = document.createElement('div');
@@ -323,40 +321,45 @@ export function setupModalFields(sectionId, modalType = 'add') {
             fieldDiv.className = 'mb-3';
 
             const label = document.createElement('label');
-            label.setAttribute('for', field.id);
+            // Cambia el id si es edición
+            let fieldId = field.id;
+            if (modalType === 'edit') {
+                fieldId = field.id.replace('modalInput', 'editInput');
+            }
+            label.setAttribute('for', fieldId);
             label.className = 'form-label';
             label.textContent = field.label;
 
-            const input = createModalInput(field);
+            // Clona el objeto field y cambia el id si es edición
+            const fieldForInput = { ...field, id: fieldId };
+            const input = createModalInput(fieldForInput);
 
             // Estilo especial para campos monetarios
             if (field.id.includes('Monto') || field.id.includes('Precio')) {
                 const inputGroup = document.createElement('div');
                 inputGroup.className = 'input-group';
-                
+
                 const currencySpan = document.createElement('span');
                 currencySpan.className = 'input-group-text';
                 currencySpan.textContent = 'S/';
-                
+
                 inputGroup.appendChild(currencySpan);
                 inputGroup.appendChild(input);
-                
+
                 fieldDiv.appendChild(label);
                 fieldDiv.appendChild(inputGroup);
             } else {
                 fieldDiv.appendChild(label);
                 fieldDiv.appendChild(input);
             }
-            
+
             column.appendChild(fieldDiv);
         });
     };
 
-    // Agregar campos a las columnas
     addFieldsToColumn(leftFields, leftCol);
     addFieldsToColumn(rightFields, rightCol);
 
-    // Agregar columnas al contenedor
     container.appendChild(leftCol);
     container.appendChild(rightCol);
     form.appendChild(container);
@@ -365,17 +368,22 @@ export function setupModalFields(sectionId, modalType = 'add') {
     if (modalType === 'edit') {
         const hiddenDiv = document.createElement('div');
         hiddenDiv.className = 'd-none';
-        
+
         const rowIndexInput = document.createElement('input');
         rowIndexInput.type = 'hidden';
         rowIndexInput.id = 'editRowIndex';
-        
+
         const tableKeyInput = document.createElement('input');
         tableKeyInput.type = 'hidden';
         tableKeyInput.id = 'editTableKey';
-        
+
+        const tableBodyIdInput = document.createElement('input');
+        tableBodyIdInput.type = 'hidden';
+        tableBodyIdInput.id = 'editTableBodyId';
+
         hiddenDiv.appendChild(rowIndexInput);
         hiddenDiv.appendChild(tableKeyInput);
+        hiddenDiv.appendChild(tableBodyIdInput);
         form.appendChild(hiddenDiv);
     }
 }
@@ -409,7 +417,7 @@ export function showDeleteConfirmationModal(callback) {
  * @param {string} key - Clave de los datos (ej. 'clientesData')
  * @param {number} index - Índice del registro a editar
  */
-export function showEditModal(key, index) {
+export function showEditModal(key, index, tableBodyId) {
     const data = loadDataFromLocalStorage(key);
     const item = data[index];
     
@@ -423,6 +431,18 @@ export function showEditModal(key, index) {
     const section = key.replace('Data', '').toLowerCase();
     setupModalFields(section, 'edit');
 
+    // Configurar el título del modal según la sección
+    const modalTitle = document.getElementById('editDataModalLabel');
+    if (modalTitle) {
+        const titles = {
+            'clientes': 'Editar Cliente',
+            'almacen': 'Editar Producto',
+            'trabajadores': 'Editar Trabajador',
+            'caja': 'Editar Movimiento de Caja'
+        };
+        modalTitle.textContent = titles[section] || 'Editar Registro';
+    }
+
     // Llenar los campos con los datos existentes
     const fields = getEditFieldsForSection(key, item);
     fields.forEach(field => {
@@ -430,20 +450,9 @@ export function showEditModal(key, index) {
         if (input) {
             input.value = field.value || '';
             
-            // Configuraciones adicionales para campos específicos
-            if (field.type === 'select' && field.options) {
-                if (!field.options.includes(field.value) && field.value) {
-                    const option = document.createElement('option');
-                    option.value = field.value;
-                    option.textContent = field.value;
-                    option.selected = true;
-                    input.appendChild(option);
-                }
-            }
-            
-            if (field.readOnly) {
-                input.readOnly = true;
-                input.style.backgroundColor = '#f8f9fa';
+            // Aplicar validaciones adicionales si existen
+            if (field.validation) {
+                field.validation(input);
             }
         }
     });
@@ -451,6 +460,7 @@ export function showEditModal(key, index) {
     // Establecer los valores ocultos
     document.getElementById('editRowIndex').value = index;
     document.getElementById('editTableKey').value = key;
+    document.getElementById('editTableBodyId').value = tableBodyId;
 
     // Mostrar el modal
     const editModal = new bootstrap.Modal(document.getElementById('editDataModal'));
@@ -536,6 +546,7 @@ function getEditFieldsForSection(key, item) {
 export function handleSaveEditData() {
     const key = document.getElementById('editTableKey').value;
     const index = parseInt(document.getElementById('editRowIndex').value, 10);
+    const tableBodyId = document.getElementById('editTableBodyId').value;
     const data = loadDataFromLocalStorage(key);
     
     if (!data || !data[index]) {
@@ -543,28 +554,28 @@ export function handleSaveEditData() {
         return;
     }
 
-    // Actualizar los datos según la sección
-    const updatedItem = updateItemData(key, data[index]);
-    if (!updatedItem) return;
+    // Determinar qué función de edición llamar según la sección
+    const section = key.replace('Data', '');
+    const editFunctions = {
+        'clientes': () => window.editarCliente?.(index),
+        'almacen': () => window.editarProducto?.(index),
+        'trabajadores': () => window.editarTrabajador?.(index),
+        'caja': () => window.cerrarCaja?.(index)
+    };
 
-    // Guardar los cambios
-    data[index] = updatedItem;
-    saveDataToLocalStorage(key, data);
-
-    // Cerrar el modal y mostrar confirmación
-    const editModal = bootstrap.Modal.getInstance(document.getElementById('editDataModal'));
-    editModal.hide();
+    // Llamar a la función de edición correspondiente
+    const success = editFunctions[section.toLowerCase()]?.();
     
-    Swal.fire({
-        icon: 'success',
-        title: 'Actualizado',
-        text: 'Los cambios se guardaron correctamente',
-        timer: 1500,
-        showConfirmButton: false
-    });
-
-    // Actualizar la tabla
-    renderTable(key, `#${key.replace('Data', 'Body')}`);
+    if (success !== false) {
+        // Cerrar el modal
+        const editModal = bootstrap.Modal.getInstance(document.getElementById('editDataModal'));
+        editModal?.hide();
+        
+        // Actualizar la tabla
+        if (tableBodyId) {
+            renderTable(key, tableBodyId);
+        }
+    }
 }
 
 /**

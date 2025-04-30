@@ -85,10 +85,18 @@ main {
     transform: translateX(5px);
 }
 
+/* Estilo para el botón activo */
 .btn-navegacion.btn-active {
     background-color: rgba(255, 255, 255, 0.2);
     font-weight: bold;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    color: #fff; /* Asegúrate de que el texto sea visible */
+}
+
+/* Estilo para el botón deshabilitado */
+.btn-navegacion:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .btn-navegacion i {
