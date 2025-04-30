@@ -247,20 +247,6 @@ main {
     }
 }
 
-@media (max-width: 768px) {
-    .table-responsive {
-        border-radius: 0;
-    }
-    
-    .table th, .table td {
-        padding: 8px 10px;
-    }
-    
-    /* Ocultar columnas menos importantes en móviles */
-    .d-none-mobile {
-        display: none !important;
-    }
-}
 
 /* ===== CLASES UTILITARIAS ===== */
 /* Sombras */
@@ -638,4 +624,79 @@ main {
 .btn-export:hover {
     filter: brightness(90%);
     transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVE DESIGN PARA TABLET ===== */
+@media (min-width: 600px) and (max-width: 992px) {
+    .sidebar {
+        width: 180px;
+        min-width: 180px;
+        max-width: 180px;
+        font-size: 0.95rem;
+    }
+    main {
+        margin-left: 180px;
+        padding: 12px;
+    }
+    .logo {
+        max-width: 110px;
+    }
+    .btn-navegacion {
+        font-size: 0.95rem;
+        padding: 10px 10px;
+    }
+    .table th, .table td {
+        padding: 8px 8px;
+        font-size: 0.95rem;
+    }
+    .modal-dialog.modal-lg {
+        max-width: 98vw;
+    }
+    .table-responsive {
+        border-radius: 6px;
+    }
+    /* Puedes ocultar columnas menos importantes si lo deseas */
+    .d-none-tablet {
+        display: none !important;
+    }
+}
+@media (max-width: 992px) {
+    main {
+        padding-top: 60px; /* Deja espacio para el botón fijo */
+    }
+    #toggleSidebar {
+        top: 10px;
+        left: 480px;
+        z-index: 1100;
+        display: block !important;
+    }
+    .sidebar {
+        transform: translateX(-250px);
+        transition: all 0.3s;
+    }
+    .sidebar.sidebar-show {
+        transform: translateX(0);
+    }
+    main {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 599px) {
+    #toggleSidebar {
+        left: 292px !important; /* Asegura que esté visible en móvil */
+        top: 10px;
+        z-index: 1100;
+        display: block !important;
+    }
+    .d-none-mobile {
+        display: none !important;
+    }
+    .table th, .table td {
+        font-size: 0.90rem;
+        padding: 6px 4px;
+    }
+    .table-responsive {
+        border-radius: 4px;
+    }
 }

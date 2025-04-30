@@ -360,12 +360,38 @@ export function exportToCSV(data, fileName) {
  * @param {array} data - Datos a exportar
  * @param {string} fileName - Nombre del archivo
  */
-// filepath: c:\Users\PC\Desktop\Proyectos con Codigo\Sistema de [utils.js](http://_vscodecontentref_/1)
+
 export function exportToExcel(data, fileName) {
     try {
+        // 1. Crear hoja desde los datos
         const worksheet = XLSX.utils.json_to_sheet(data);
+
+        // 2. Calcular el rango de la tabla
+        const headers = Object.keys(data[0]);
+        const range = XLSX.utils.decode_range(worksheet['!ref']);
+        const tableRange = XLSX.utils.encode_range(range);
+
+        // 3. Agregar formato de tabla (borde y color)
+        worksheet['!cols'] = headers.map(() => ({ wch: 20 })); // Ancho de columnas
+
+        // 4. Crear el libro y agregar la hoja
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Datos");
+
+        // 5. Agregar formato de tabla (solo soportado en Excel, no en Google Sheets)
+        if (!worksheet['!tables']) worksheet['!tables'] = [];
+        worksheet['!tables'].push({
+            name: "TablaDatos",
+            ref: tableRange,
+            headerRow: true,
+            totalsRow: false,
+            style: {
+                theme: "TableStyleMedium9", // Puedes cambiar el estilo
+                showRowStripes: true
+            }
+        });
+
+        // 6. Guardar el archivo
         XLSX.writeFile(workbook, `${fileName}.xlsx`);
     } catch (error) {
         console.error('Error al exportar a Excel:', error);
@@ -382,7 +408,7 @@ export function exportToExcel(data, fileName) {
 
 export function exportToPDF(data, fileName, title) {
     try {
-        const doc = new jsPDF(); // Usa el objeto global jsPDF
+        const doc = new window.jspdf.jsPDF();
         doc.text(title, 14, 10);
 
         const headers = Object.keys(data[0]);

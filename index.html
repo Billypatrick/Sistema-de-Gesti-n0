@@ -20,13 +20,13 @@
 <body>
     <div class="container-fluid">
         <!-- Botón para alternar sidebar -->
-        <button id="toggleSidebar" class="btn btn-primary d-md-none fixed-top m-3">
+        <button id="toggleSidebar" class="btn btn-primary d-lg-none fixed-top m-3">
             <i class="fas fa-bars"></i>
         </button>
 
         <div class="row">
             <!-- Sidebar -->
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
                 <div class="position-sticky pt-3">
                     <div class="text-center mb-4">
                         <img src="logo.png" alt="Logo" class="img-fluid logo">
@@ -94,9 +94,9 @@
                                     <th>DNI</th>
                                     <th>Nombre</th>
                                     <th>Teléfono</th>
-                                    <th>RUC</th>
+                                    <th class="d-none-tablet">RUC</th>
                                     <th>Dirección</th>
-                                    <th>Referencia</th>
+                                    <th class="d-none-tablet">Referencia</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
@@ -127,12 +127,12 @@
                                 <tr>
                                     <th class="text-center">ID</th>
                                     <th>Producto</th>
-                                    <th>Descripción</th>
+                                    <th class="d-none-tablet">Descripción</th>
                                     <th>Stock</th>
                                     <th>Peso</th>
                                     <th>Precio</th>
-                                    <th>Entrada</th>
-                                    <th>Salida</th>
+                                    <th class="d-none-tablet">Entrada</th>
+                                    <th class="d-none-tablet">Salida</th>
                                     <th>Importe</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
@@ -165,9 +165,9 @@
                                     <th class="text-center">ID</th>
                                     <th>N° Trabajador</th>
                                     <th>Nombre</th>
-                                    <th>Cargo</th>
-                                    <th>Área</th>
-                                    <th>Sexo</th>
+                                    <th class="d-none-tablet">Cargo</th>
+                                    <th class="d-none-tablet">Área</th>
+                                    <th class="d-none-tablet">Sexo</th>
                                     <th>Edad</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
@@ -200,10 +200,10 @@
                                     <th class="text-center">ID</th>
                                     <th>Código</th>
                                     <th>Fecha</th>
-                                    <th>Descripción</th>
+                                    <th class="d-none-tablet d-none-mobile">Descripción</th>
                                     <th>Monto Apertura</th>
                                     <th>Monto Disponible</th>
-                                    <th>Monto Cierre</th>
+                                    <th class="d-none-tablet d-none-mobile">Monto Cierre</th>
                                     <th>Estado</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>

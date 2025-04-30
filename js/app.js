@@ -66,9 +66,9 @@ function renderClientesTable(data, tableBody) {
             <td>${item.dni || ''}</td>
             <td>${item.nombre || ''}</td>
             <td>${item.telefono || ''}</td>
-            <td>${item.ruc || ''}</td>
+            <td class="d-none-tablet">${item.ruc || ''}</td>
             <td>${item.direccion || ''}</td>
-            <td>${item.referencia || ''}</td>
+            <td class="d-none-tablet">${item.referencia || ''}</td>
             <td>
                 <button class="btn btn-warning btn-sm" onclick="editRow('clientesData', ${index}, '#clientesBody')">
                     <i class="fas fa-pen-to-square"></i>
@@ -92,12 +92,12 @@ function renderAlmacenTable(data, tableBody) {
         row.innerHTML = `
             <td>${index + 1}</td>
             <td>${item.producto || ''}</td>
-            <td>${item.descripcion || ''}</td>
+            <td class="d-none-tablet">${item.descripcion || ''}</td>
             <td>${item.stock || '0'}</td>
             <td>${item.peso || '0'} kg</td>
             <td>${formatCurrency(item.precio || 0)}</td>
-            <td>${item.entrada || '0'}</td>
-            <td>${item.salida || '0'}</td>
+            <td class="d-none-tablet">${item.entrada || '0'}</td>
+            <td class="d-none-tablet">${item.salida || '0'}</td>
             <td>${formatCurrency(importeInventario)}</td>
             <td>
                 <button class="btn btn-warning btn-sm" onclick="editRow('almacenData', ${index}, '#almacenBody')">
@@ -122,9 +122,9 @@ function renderTrabajadoresTable(data, tableBody) {
             <td>${index + 1}</td>
             <td>${item.numeroTrabajador || ''}</td>
             <td>${item.nombre || ''}</td>
-            <td>${item.cargo || ''}</td>
-            <td>${item.area || ''}</td>
-            <td>${item.sexo || ''}</td>
+            <td class="d-none-tablet">${item.cargo || ''}</td>
+            <td class="d-none-tablet">${item.area || ''}</td>
+            <td class="d-none-tablet">${item.sexo || ''}</td>
             <td>${item.edad || ''}</td>
             <td>
                 <button class="btn btn-warning btn-sm" onclick="editRow('trabajadoresData', ${index}, '#trabajadoresBody')">
@@ -149,10 +149,10 @@ function renderCajaTable(data, tableBody) {
             <td>${index + 1}</td>
             <td>${item.codigo || ''}</td>
             <td>${item.fecha || ''}</td>
-            <td>${item.descripcion || ''}</td>
+            <th class="d-none-tablet d-none-mobile">${item.descripcion || ''}</td>
             <td>${formatCurrency(item.montoApertura || 0)}</td>
             <td>${formatCurrency(item.montoDisponible || item.montoApertura || 0)}</td>
-            <td>${formatCurrency(item.montoCierre || 0)}</td>
+            <th class="d-none-tablet d-none-mobile">${formatCurrency(item.montoCierre || 0)}</td>
             <td class="text-white fw-bold ${item.estado === 'Cerrado' ? 'bg-danger' : 'bg-success'}">
                 ${item.estado || 'Abierto'}
             </td>
@@ -406,10 +406,9 @@ window.navigateTo = function (sectionId) {
  * Inicializa los event listeners principales
  */
 function initEventListeners() {
-    // Toggle del sidebar en móviles
-    document.getElementById('toggleSidebar')?.addEventListener('click', function() {
-        document.querySelector('.container-fluid').classList.toggle('sidebar-hidden');
-    });
+document.getElementById('toggleSidebar')?.addEventListener('click', function() {
+    document.querySelector('.sidebar').classList.toggle('sidebar-show');
+});
 
     // Configurar campos del modal al mostrar
     document.querySelectorAll('[data-bs-target="#addDataModal"]').forEach(button => {
@@ -733,31 +732,5 @@ document.addEventListener('DOMContentLoaded', initApp);
 
 // filepath: c:\Users\PC\Desktop\Proyectos con Codigo\mi crud con plantilla - copia\js\app.js
 
-// Registrar la función globalmente
-window.navigateTo = function(sectionId) {
-    // Ocultar todas las secciones
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.classList.add('d-none');
-    });
 
-    // Mostrar la sección seleccionada
-    const sectionToShow = document.getElementById(sectionId);
-    if (sectionToShow) {
-        sectionToShow.classList.remove('d-none');
-    } else {
-        console.error(`❌ No se encontró la sección con ID: ${sectionId}`);
-    }
-
-    // Actualizar el título
-    const sectionTitle = document.getElementById('sectionTitle');
-    if (sectionTitle) {
-        const titles = {
-            'clientes': 'Clientes',
-            'almacen': 'Almacén',
-            'trabajadores': 'Trabajadores',
-            'caja': 'Caja'
-        };
-        sectionTitle.textContent = titles[sectionId] || sectionId;
-    }
-};
 
