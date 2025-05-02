@@ -700,3 +700,16 @@ main {
         border-radius: 4px;
     }
 }
+
+/* Scroll horizontal suave para tablas */
+.table-responsive {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+}
+
+@media (max-width: 992px) {
+    .table-responsive {
+        overflow-x: scroll !important;
+    }
+}
