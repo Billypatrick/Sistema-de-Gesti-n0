@@ -659,6 +659,7 @@ main {
     .d-none-tablet {
         display: none !important;
     }
+    
 }
 @media (max-width: 992px) {
     main {
@@ -713,3 +714,8 @@ main {
         overflow-x: scroll !important;
     }
 }
+@media (max-width: 992px) {
+    .table-responsive > .table {
+      min-width: 900px;
+    }
+  }
