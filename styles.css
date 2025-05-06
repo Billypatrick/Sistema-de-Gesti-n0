@@ -767,9 +767,11 @@ main {
     color: #fff !important;
 }
 
-/* Filas alternas en tablas */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #D7CCC8 !important; /* Beige medio */
+}
 .table-striped tbody tr:nth-of-type(even) {
-    background-color: #D7CCC8 !important; /* Beige claro */
+    background-color: #EFEBE9 !important; /* Beige muy claro */
 }
 
 /* Botones/acciones principales */
@@ -816,4 +818,17 @@ main {
     border-radius: 12px;
     padding: 4px 12px;
     font-weight: bold;
+}
+
+/* Botón Cerrar Sesión - Rojo terracota intenso */
+#btnCerrarSesion, .btn-cerrar-sesion {
+    background-color: #D32F2F !important; /* Rojo terracota intenso */
+    color: #FFFFFF !important;
+    border: none;
+    transition: background 0.2s;
+}
+
+#btnCerrarSesion:hover, .btn-cerrar-sesion:hover {
+    background-color: #B71C1C !important; /* Rojo más oscuro */
+    color: #FFFFFF !important;
 }

@@ -75,6 +75,11 @@
                             </button>
                         </li>
                     </ul>
+                    <div class="mt-4 text-center">
+                        <button id="btnCerrarSesion" class="btn btn-danger w-100">
+                            <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                        </button>
+                    </div>
                 </div>
             </nav>
 
@@ -349,12 +354,18 @@
                 }).then(() => {
                     loginScreen.style.display = 'none';
                     if (mainContent) mainContent.style.display = '';
+                    loginForm.reset();
                 });
             } else {
                 Swal.fire('Error', 'Correo o contraseña incorrectos', 'error');
             }
             });
         });
+    document.getElementById('btnCerrarSesion')?.addEventListener('click', function() {
+    // Oculta el contenido principal y muestra el login
+    document.querySelector('.container-fluid').style.display = 'none';
+    document.getElementById('loginScreen').style.display = '';;
+});
     </script>
 </body>
 </html>
