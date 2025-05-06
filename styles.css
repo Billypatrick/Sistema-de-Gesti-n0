@@ -21,10 +21,10 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Sidebar - Panel de navegación lateral */
+/* ===== BARRA LATERAL ===== */
 .sidebar {
-    background: linear-gradient(135deg, #2c3e50, #4ca1af);
-    color: white;
+    background-color: #6D4C41; /* Marrón terroso oscuro */
+    color: #EFEBE9; /* Beige claro */
     height: 100vh;
     position: fixed;
     width: 250px;
@@ -50,7 +50,7 @@ main {
     margin-left: 0;
 }
 
-/* Logo en el sidebar */
+/* Logo en la barra lateral */
 .logo {
     max-width: 180px;
     height: auto;
@@ -66,7 +66,7 @@ main {
 
 /* ===== BOTONES DE NAVEGACIÓN ===== */
 .btn-navegacion {
-    color: white;
+    color: #EFEBE9; /* Beige claro */
     background-color: transparent;
     border: none;
     text-align: left;
@@ -81,22 +81,36 @@ main {
 }
 
 .btn-navegacion:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: #8D6E63; /* Marrón tostado */
+    color: #FFFFFF; /* Blanco */
     transform: translateX(5px);
 }
 
 /* Estilo para el botón activo */
 .btn-navegacion.btn-active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: #8D6E63; /* Marrón tostado */
     font-weight: bold;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    color: #fff; /* Asegúrate de que el texto sea visible */
+    color: #FFFFFF; /* Blanco */
 }
 
 /* Estilo para el botón deshabilitado */
 .btn-navegacion:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+/* Botón Exportar - Verde hoja de café */
+#exportData, .btn-exportar-principal {
+    background-color: #558B2F !important; /* Verde hoja de café */
+    color: #FFFFFF !important;
+    border: none;
+    transition: background 0.2s;
+}
+
+#exportData:hover, .btn-exportar-principal:hover {
+    background-color: #689F38 !important; /* Verde más vibrante */
+    color: #FFFFFF !important;
 }
 
 .btn-navegacion i {
@@ -719,3 +733,87 @@ main {
       min-width: 900px;
     }
   }
+
+  #loginScreen[style*="display: none"] {
+    display: none !important;
+}
+
+#loginScreen {
+    background: url('fondo_login.png') no-repeat center center;
+    background-size: cover;
+    /* Opcional: oscurecer un poco para mejor contraste */
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+}
+
+#loginScreen .card {
+    background: rgba(255,255,255,0.92); /* Fondo blanco semitransparente para el formulario */
+    backdrop-filter: blur(2px);
+}
+
+
+/* === PALETA DE COLORES PERSONALIZADA === */
+
+/* Fondo de cabecera */
+.header-main,
+.modal-header {
+    background: #5D4037 !important; /* Marrón chocolate oscuro */
+    color: #fff !important;
+}
+
+/* Encabezados de tabla */
+.table th, .table-dark th {
+    background-color: #8D6E63 !important; /* Tierra tostada */
+    color: #fff !important;
+}
+
+/* Filas alternas en tablas */
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #D7CCC8 !important; /* Beige claro */
+}
+
+/* Botones/acciones principales */
+.btn-success, .btn-accion-cafe {
+    background-color: #689F38 !important; /* Verde café */
+    border-color: #689F38 !important;
+    color: #fff !important;
+}
+.btn-success:hover, .btn-accion-cafe:hover {
+    background-color: #558B2F !important;
+    border-color: #558B2F !important;
+}
+
+/* Estado "Abierto" */
+.badge-abierto, .estado-abierto, .status-open {
+    background-color: #FB8C00 !important; /* Naranja cálido */
+    color: #fff !important;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-weight: bold;
+}
+
+/* Estado "Cerrado" */
+.badge-cerrado, .estado-cerrado, .status-closed {
+    background-color: #E53935 !important; /* Rojo terracota */
+    color: #fff !important;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-weight: bold;
+}
+
+/* Estados de caja con colores personalizados */
+.badge-abierto, .estado-abierto, .status-open {
+    background-color: #689F38 !important; /* Verde café */
+    color: #fff !important;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-weight: bold;
+}
+
+.badge-cerrado, .estado-cerrado, .status-closed {
+    background-color: #E53935 !important; /* Rojo terracota */
+    color: #fff !important;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-weight: bold;
+}

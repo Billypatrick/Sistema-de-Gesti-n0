@@ -18,6 +18,26 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+            <!-- Pantalla de Login -->
+<div id="loginScreen" class="d-flex align-items-center justify-content-center vh-100 bg-light position-fixed top-0 start-0 w-100 h-100" style="z-index:2000;">
+    <div class="card shadow p-4" style="min-width:320px; max-width:350px;">
+        <div class="text-center mb-3">
+            <img src="logo.png" alt="Logo" class="img-fluid mb-2" style="max-width:90px;">
+            <h4 class="mb-0">Iniciar Sesión</h4>
+        </div>
+        <form id="loginForm" autocomplete="off">
+            <div class="mb-3">
+                <label for="loginEmail" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="loginEmail" required autocomplete="username">
+            </div>
+            <div class="mb-3">
+                <label for="loginPassword" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="loginPassword" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        </form>
+    </div>
+</div>
     <div class="container-fluid">
         <!-- Botón para alternar sidebar -->
         <button id="toggleSidebar" class="btn btn-primary d-lg-none fixed-top m-3">
@@ -293,5 +313,48 @@
 
     <!-- App principal -->
     <script src="js/app.js" type="module"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginScreen = document.getElementById('loginScreen');
+            const loginForm = document.getElementById('loginForm');
+            const mainContent = document.querySelector('.container-fluid');
+        
+            // Lista de usuarios permitidos
+            const usuarios = [
+                { email: 'admin@demo.com', password: '123456' },
+                { email: 'usuario1@demo.com', password: 'abc123' },
+                { email: 'bperez@credisol.es', password: 'clave2024' }
+                // Agrega aquí más usuarios si lo deseas
+            ];
+        
+            // Oculta el sistema hasta que se loguee
+            if (mainContent) mainContent.style.display = 'none';
+        
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
+        
+                // Validación contra la lista de usuarios
+                const usuarioValido = usuarios.find(u => u.email === email && u.password === password);
+        
+                if (usuarioValido) {
+                // Mensaje de inicio de sesión exitoso
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Inicio de sesión exitoso',
+                    text: '¡Bienvenido al sistema!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    loginScreen.style.display = 'none';
+                    if (mainContent) mainContent.style.display = '';
+                });
+            } else {
+                Swal.fire('Error', 'Correo o contraseña incorrectos', 'error');
+            }
+            });
+        });
+    </script>
 </body>
 </html>

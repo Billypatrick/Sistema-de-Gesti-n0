@@ -203,8 +203,10 @@ function renderCajaTable(data, tableBody, startIndex = 0) {
             <td>${formatCurrency(item.montoApertura || 0)}</td>
             <td>${formatCurrency(item.montoDisponible || item.montoApertura || 0)}</td>
             <td class="d-none-tablet d-none-mobile">${formatCurrency(item.montoCierre || 0)}</td>
-            <td class="text-white fw-bold ${item.estado === 'Cerrado' ? 'bg-danger' : 'bg-success'}">
+            <td>
+            <span class="${item.estado === 'Cerrado' ? 'badge-cerrado' : 'badge-abierto'}">
                 ${item.estado || 'Abierto'}
+            </span>
             </td>
             <td class="caja-options">
                 <div class="d-flex flex-wrap gap-1 justify-content-center">
