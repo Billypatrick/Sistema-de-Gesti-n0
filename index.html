@@ -75,11 +75,13 @@
                             </button>
                         </li>
                     </ul>
-                    <div class="mt-4 text-center">
-                        <button id="btnCerrarSesion" class="btn btn-danger w-100">
-                            <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
-                        </button>
-                    </div>
+                </div>
+                <div class="sidebar-footer text-center">
+                    <div id="usuarioActual" class="mt-3 text-muted small" style="font-weight:bold;"></div>
+                    <button id="btnCerrarSesion" class="btn btn-danger w-100">
+                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                    </button>
+                    
                 </div>
             </nav>
 
@@ -328,10 +330,9 @@
         
             // Lista de usuarios permitidos
             const usuarios = [
-                { email: 'admin@demo.com', password: '123456' },
-                { email: 'usuario1@demo.com', password: 'abc123' },
-                { email: 'bperez@credisol.es', password: 'clave2024' }
-                // Agrega aquí más usuarios si lo deseas
+            { email: 'admin@demo.com', password: '123456', nombre: 'Administrador' },
+            { email: 'usuario1@demo.com', password: 'abc123', nombre: 'Jhonatan' },
+            { email: 'salomon@demo.com', password: 'clave2025', nombre: 'usuario 1' }
             ];
         
             // Oculta el sistema hasta que se loguee
@@ -346,6 +347,8 @@
                 const usuarioValido = usuarios.find(u => u.email === email && u.password === password);
         
                 if (usuarioValido) {
+                    // Guarda el nombre en localStorage
+                    localStorage.setItem('usuarioActual', usuarioValido.nombre);
 
                     Swal.fire({
                         icon: 'success',
@@ -356,6 +359,8 @@
                         loginScreen.style.display = 'none';
                         if (mainContent) mainContent.style.display = '';
                         loginForm.reset();
+                        // Muestra el nombre en la barra lateral
+                        document.getElementById('usuarioActual').textContent = 'Usuario: ' + usuarioValido.nombre;
                     });
                 } else {
                     console.log('NO VALIDO');
@@ -370,11 +375,17 @@
         
             // Listener para cerrar sesión
             btnCerrarSesion?.addEventListener('click', function() {
-                if (mainContent) mainContent.style.display = 'none';
-                loginScreen.style.display = '';
-                loginForm.reset();
+            if (mainContent) mainContent.style.display = 'none';
+            loginScreen.style.display = '';
+            loginForm.reset();
+            localStorage.removeItem('usuarioActual');
+            document.getElementById('usuarioActual').textContent = '';
             });
         });
+        const nombreGuardado = localStorage.getItem('usuarioActual');
+        if (nombreGuardado) {
+            document.getElementById('usuarioActual').textContent = 'Usuario: ' + nombreGuardado;
+        }
         </script>
 </body>
 </html>

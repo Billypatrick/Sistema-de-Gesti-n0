@@ -836,3 +836,17 @@ main {
 .swal2-container {
     z-index: 3000 !important;
 }
+
+#usuarioActual {
+    color: #fff !important;
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px 16px 12px 16px;
+    background: transparent;
+}
+
