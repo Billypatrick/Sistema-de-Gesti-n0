@@ -832,3 +832,7 @@ main {
     background-color: #B71C1C !important; /* Rojo más oscuro */
     color: #FFFFFF !important;
 }
+
+.swal2-container {
+    z-index: 3000 !important;
+}

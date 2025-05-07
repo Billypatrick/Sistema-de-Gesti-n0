@@ -324,6 +324,7 @@
             const loginScreen = document.getElementById('loginScreen');
             const loginForm = document.getElementById('loginForm');
             const mainContent = document.querySelector('.container-fluid');
+            const btnCerrarSesion = document.getElementById('btnCerrarSesion');
         
             // Lista de usuarios permitidos
             const usuarios = [
@@ -345,27 +346,35 @@
                 const usuarioValido = usuarios.find(u => u.email === email && u.password === password);
         
                 if (usuarioValido) {
-                // Mensaje de inicio de sesión exitoso
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Inicio de sesión exitoso',
-                    text: '¡Bienvenido al sistema!',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    loginScreen.style.display = 'none';
-                    if (mainContent) mainContent.style.display = '';
-                    loginForm.reset();
-                });
-            } else {
-                Swal.fire('Error', 'Correo o contraseña incorrectos', 'error');
-            }
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Inicio de sesión exitoso',
+                        text: '¡Bienvenido al sistema!',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        loginScreen.style.display = 'none';
+                        if (mainContent) mainContent.style.display = '';
+                        loginForm.reset();
+                    });
+                } else {
+                    console.log('NO VALIDO');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de inicio de sesión',
+                        text: '¡Credenciales incorrectas! Por favor, inténtalo de nuevo.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        
+            // Listener para cerrar sesión
+            btnCerrarSesion?.addEventListener('click', function() {
+                if (mainContent) mainContent.style.display = 'none';
+                loginScreen.style.display = '';
+                loginForm.reset();
             });
         });
-    document.getElementById('btnCerrarSesion')?.addEventListener('click', function() {
-    // Oculta el contenido principal y muestra el login
-    document.querySelector('.container-fluid').style.display = 'none';
-    document.getElementById('loginScreen').style.display = '';;
-});
-    </script>
+        </script>
 </body>
 </html>
