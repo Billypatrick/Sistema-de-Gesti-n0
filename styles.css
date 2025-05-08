@@ -24,6 +24,7 @@ main {
     transition: all 0.3s ease;
     padding: 20px;
     min-height: 100vh;
+    
 }
 
 .sidebar {
@@ -59,12 +60,13 @@ main {
 
 /* ===== SIDEBAR FOOTER (CERRAR SESIÓN) ===== */
 .sidebar-footer {
-    position: absolute;
-    bottom: 0;
+    position: fixed;
     left: 0;
-    width: 100%;
+    bottom: 0;
+    width: 230px;
+    background: #6D4C41;
+    z-index: 1100;
     padding: 16px 16px 12px 16px;
-    background: transparent;
 }
 #usuarioActual {
     color: #fff !important;
