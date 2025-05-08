@@ -30,9 +30,14 @@
                 <label for="loginEmail" class="form-label">Correo electrónico</label>
                 <input type="email" class="form-control" id="loginEmail" required autocomplete="username">
             </div>
-            <div class="mb-3">
+            <div class="mb-3 position-relative">
                 <label for="loginPassword" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="loginPassword" required autocomplete="current-password">
+                <div class="input-group">
+                    <input type="password" class="form-control" id="loginPassword" required autocomplete="current-password">
+                    <button type="button" class="btn btn-outline-secondary" id="togglePassword" tabindex="-1">
+                        <i class="fa fa-eye" id="iconPassword"></i>
+                    </button>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary w-100">Ingresar</button>
         </form>
@@ -322,70 +327,90 @@
     <script src="js/app.js" type="module"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginScreen = document.getElementById('loginScreen');
-            const loginForm = document.getElementById('loginForm');
-            const mainContent = document.querySelector('.container-fluid');
-            const btnCerrarSesion = document.getElementById('btnCerrarSesion');
-        
-            // Lista de usuarios permitidos
-            const usuarios = [
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginScreen = document.getElementById('loginScreen');
+        const loginForm = document.getElementById('loginForm');
+        const mainContent = document.querySelector('.container-fluid');
+        const btnCerrarSesion = document.getElementById('btnCerrarSesion');
+
+        // Lista de usuarios permitidos
+        const usuarios = [
             { email: 'admin@demo.com', password: '123456', nombre: 'Administrador' },
             { email: 'usuario1@demo.com', password: 'abc123', nombre: 'Jhonatan' },
             { email: 'salomon@demo.com', password: 'clave2025', nombre: 'usuario 1' }
-            ];
-        
-            // Oculta el sistema hasta que se loguee
-            if (mainContent) mainContent.style.display = 'none';
-        
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('loginEmail').value.trim();
-                const password = document.getElementById('loginPassword').value;
-        
-                // Validación contra la lista de usuarios
-                const usuarioValido = usuarios.find(u => u.email === email && u.password === password);
-        
-                if (usuarioValido) {
-                    // Guarda el nombre en localStorage
-                    localStorage.setItem('usuarioActual', usuarioValido.nombre);
+        ];
 
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Inicio de sesión exitoso',
-                        text: '¡Bienvenido al sistema!',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        loginScreen.style.display = 'none';
-                        if (mainContent) mainContent.style.display = '';
-                        loginForm.reset();
-                        // Muestra el nombre en la barra lateral
-                        document.getElementById('usuarioActual').textContent = 'Usuario: ' + usuarioValido.nombre;
-                    });
-                } else {
-                    console.log('NO VALIDO');
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error de inicio de sesión',
-                        text: '¡Credenciales incorrectas! Por favor, inténtalo de nuevo.',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            });
-        
-            // Listener para cerrar sesión
-            btnCerrarSesion?.addEventListener('click', function() {
+        // NUEVO: Control de sesión persistente
+        const nombreGuardado = localStorage.getItem('usuarioActual');
+        if (nombreGuardado) {
+            // Si hay usuario, mostrar contenido principal y ocultar login
+            if (mainContent) mainContent.style.display = '';
+            if (loginScreen) loginScreen.style.display = 'none';
+            document.getElementById('usuarioActual').textContent = 'Usuario: ' + nombreGuardado;
+        } else {
+            // Si no hay usuario, mostrar login y ocultar contenido principal
             if (mainContent) mainContent.style.display = 'none';
-            loginScreen.style.display = '';
+            if (loginScreen) loginScreen.style.display = '';
+        }
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            // Validación contra la lista de usuarios
+            const usuarioValido = usuarios.find(u => u.email === email && u.password === password);
+
+            if (usuarioValido) {
+                // Guarda el nombre en localStorage
+                localStorage.setItem('usuarioActual', usuarioValido.nombre);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Inicio de sesión exitoso',
+                    text: '¡Bienvenido al sistema!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    loginScreen.style.display = 'none';
+                    if (mainContent) mainContent.style.display = '';
+                    loginForm.reset();
+                    // Muestra el nombre en la barra lateral
+                    document.getElementById('usuarioActual').textContent = 'Usuario: ' + usuarioValido.nombre;
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de inicio de sesión',
+                    text: '¡Credenciales incorrectas! Por favor, inténtalo de nuevo.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+
+        // Listener para cerrar sesión
+        btnCerrarSesion?.addEventListener('click', function() {
+            if (mainContent) mainContent.style.display = 'none';
+            if (loginScreen) loginScreen.style.display = '';
             loginForm.reset();
             localStorage.removeItem('usuarioActual');
             document.getElementById('usuarioActual').textContent = '';
-            });
         });
-        const nombreGuardado = localStorage.getItem('usuarioActual');
-        if (nombreGuardado) {
-            document.getElementById('usuarioActual').textContent = 'Usuario: ' + nombreGuardado;
+    });
+
+    // Mostrar/ocultar contraseña
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('loginPassword');
+        const icon = document.getElementById('iconPassword');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
         }
-        </script>
+    });
+</script>
 </body>
 </html>

@@ -787,7 +787,7 @@ function ejecutarMigraciones() {
 // Iniciar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', initApp);
 
-// filepath: c:\Users\PC\Desktop\Proyectos con Codigo\mi crud con plantilla - copia\js\app.js
+
 
 
 
