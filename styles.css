@@ -512,7 +512,7 @@ main {
     display: none !important;
 }
 #loginScreen {
-    background: url('fondo_login.png') no-repeat center center;
+    background: url('img/fondo_login.png') no-repeat center center;
     background-size: cover;
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;

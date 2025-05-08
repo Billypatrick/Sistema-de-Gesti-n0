@@ -4,60 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión</title>
-    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-            <!-- Pantalla de Login -->
-<div id="loginScreen" class="d-flex align-items-center justify-content-center vh-100 bg-light position-fixed top-0 start-0 w-100 h-100" style="z-index:2000;">
-    <div class="card shadow p-4" style="min-width:320px; max-width:350px;">
-        <div class="text-center mb-3">
-            <img src="logo.png" alt="Logo" class="img-fluid mb-2" style="max-width:90px;">
-            <h4 class="mb-0">Iniciar Sesión</h4>
-        </div>
-        <form id="loginForm" autocomplete="off">
-            <div class="mb-3">
-                <label for="loginEmail" class="form-label">Correo electrónico</label>
-                <input type="email" class="form-control" id="loginEmail" required autocomplete="username">
+    <!-- Pantalla de Login -->
+    <div id="loginScreen" class="d-flex align-items-center justify-content-center vh-100 bg-light position-fixed top-0 start-0 w-100 h-100" style="z-index:2000;">
+        <div class="card shadow p-4" style="min-width:320px; max-width:350px;">
+            <div class="text-center mb-3">
+                <img src="img/logo.png" alt="Logo" class="img-fluid mb-2" style="max-width:90px;">
+                <h4 class="mb-0">Iniciar Sesión</h4>
             </div>
-            <div class="mb-3 position-relative">
-                <label for="loginPassword" class="form-label">Contraseña</label>
-                <div class="input-group">
-                    <input type="password" class="form-control" id="loginPassword" required autocomplete="current-password">
-                    <button type="button" class="btn btn-outline-secondary" id="togglePassword" tabindex="-1">
-                        <i class="fa fa-eye" id="iconPassword"></i>
-                    </button>
+            <form id="loginForm" autocomplete="off">
+                <div class="mb-3">
+                    <label for="loginEmail" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="loginEmail" required autocomplete="username">
                 </div>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
-        </form>
+                <div class="mb-3 position-relative">
+                    <label for="loginPassword" class="form-label">Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="loginPassword" required autocomplete="current-password">
+                        <button type="button" class="btn btn-outline-secondary" id="togglePassword" tabindex="-1">
+                            <i class="fa fa-eye" id="iconPassword"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+            </form>
+        </div>
     </div>
-</div>
+
     <div class="container-fluid">
         <!-- Botón para alternar sidebar -->
         <button id="toggleSidebar" class="btn btn-primary d-lg-none fixed-top m-3">
             <i class="fas fa-bars"></i>
         </button>
-
         <div class="row">
             <!-- Sidebar -->
             <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
                 <div class="position-sticky pt-3">
                     <div class="text-center mb-4">
-                        <img src="logo.png" alt="Logo" class="img-fluid logo">
+                        <img src="img/logo.png" alt="Logo" class="img-fluid logo">
                         <h4 class="mt-2 text-white">Sistema de Gestión</h4>
                     </div>
-                    
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <button class="btn btn-navegacion w-100 text-start" onclick="navigateTo('clientes')">
@@ -86,7 +81,6 @@
                     <button id="btnCerrarSesion" class="btn btn-danger w-100">
                         <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
                     </button>
-                    
                 </div>
             </nav>
 
@@ -117,10 +111,8 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
-                            
                             <thead class="table-dark">
                                 <tr>
                                     <th class="text-center">ID</th>
@@ -154,7 +146,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead class="table-dark">
@@ -192,7 +183,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead class="table-dark">
@@ -228,7 +218,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead class="table-dark">
@@ -309,12 +298,10 @@
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Nuestro JavaScript -->
+    <!-- Librerías externas -->
     <script src="js/libs/xlsx.full.min.js"></script>
     <script src="js/libs/jspdf.umd.min.js"></script>
     <script src="js/libs/jspdf.plugin.autotable.min.js"></script>
-
     <!-- Módulos -->
     <script src="js/utils.js" type="module"></script>
     <script src="js/modals.js" type="module"></script>
@@ -322,7 +309,6 @@
     <script src="js/almacen.js" type="module"></script>
     <script src="js/trabajadores.js" type="module"></script>
     <script src="js/caja.js" type="module"></script>
-
     <!-- App principal -->
     <script src="js/app.js" type="module"></script>
 
@@ -340,15 +326,13 @@
             { email: 'salomon@demo.com', password: 'clave2025', nombre: 'usuario 1' }
         ];
 
-        // NUEVO: Control de sesión persistente
+        // Control de sesión persistente
         const nombreGuardado = localStorage.getItem('usuarioActual');
         if (nombreGuardado) {
-            // Si hay usuario, mostrar contenido principal y ocultar login
             if (mainContent) mainContent.style.display = '';
             if (loginScreen) loginScreen.style.display = 'none';
             document.getElementById('usuarioActual').textContent = 'Usuario: ' + nombreGuardado;
         } else {
-            // Si no hay usuario, mostrar login y ocultar contenido principal
             if (mainContent) mainContent.style.display = 'none';
             if (loginScreen) loginScreen.style.display = '';
         }
@@ -358,11 +342,9 @@
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
 
-            // Validación contra la lista de usuarios
             const usuarioValido = usuarios.find(u => u.email === email && u.password === password);
 
             if (usuarioValido) {
-                // Guarda el nombre en localStorage
                 localStorage.setItem('usuarioActual', usuarioValido.nombre);
 
                 Swal.fire({
@@ -374,7 +356,6 @@
                     loginScreen.style.display = 'none';
                     if (mainContent) mainContent.style.display = '';
                     loginForm.reset();
-                    // Muestra el nombre en la barra lateral
                     document.getElementById('usuarioActual').textContent = 'Usuario: ' + usuarioValido.nombre;
                 });
             } else {
@@ -411,6 +392,30 @@
             icon.classList.add('fa-eye');
         }
     });
-</script>
+    </script>
+
+    <!-- Botón de ayuda flotante -->
+    <button id="btnAyuda" class="btn btn-info position-fixed" style="bottom:30px; right:30px; z-index:3000;">
+        <i class="fas fa-question-circle"></i>
+    </button>
+    <script>
+    document.getElementById('btnAyuda').addEventListener('click', function() {
+        Swal.fire({
+            title: 'Guía rápida',
+            html: `
+                <ul class="text-start">
+                    <li><b>Clientes:</b> Registra y gestiona tus clientes.</li>
+                    <li><b>Almacén:</b> Controla productos y stock.</li>
+                    <li><b>Trabajadores:</b> Administra tu personal.</li>
+                    <li><b>Caja:</b> Controla ingresos y cierres de caja.</li>
+                    <li>Utiliza la barra de búsqueda para filtrar datos.</li>
+                    <li>Exporta información en varios formatos.</li>
+                </ul>
+            `,
+            icon: 'info',
+            confirmButtonText: 'Cerrar'
+        });
+    });
+    </script>
 </body>
 </html>
