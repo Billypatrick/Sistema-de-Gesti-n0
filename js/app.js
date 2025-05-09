@@ -275,6 +275,16 @@ window.navigateTo = function (sectionId) {
         btn.classList.remove('btn-active');
         btn.disabled = false;
     });
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+        link.classList.remove('active');
+        // Opcional: quitar focus si lo tuviera
+        link.blur();
+    });
+    // Busca el enlace correspondiente y agrégale la clase active
+    const activeNavLink = document.querySelector(`.navbar-nav .nav-link[onclick*="navigateTo('${sectionId}'"]`);
+    if (activeNavLink) {
+        activeNavLink.classList.add('active');
+    }
     const activeButton = document.querySelector(`button[onclick="navigateTo('${sectionId}')"]`);
     if (activeButton) {
         activeButton.classList.add('btn-active');

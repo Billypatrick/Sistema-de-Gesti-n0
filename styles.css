@@ -567,3 +567,30 @@ main {
     padding: 10px;
   }
 }
+
+#toggleSidebar {
+    display: none !important;
+}
+
+/* Cambia el color de la barra superior móvil */
+.navbar.bg-dark.d-lg-none {
+    background-color: #6E4B2A !important; /* Marrón */
+    border-bottom: 3px solid #6E4B2A;
+}
+
+/* Texto blanco en la barra superior móvil */
+.navbar.bg-dark.d-lg-none,
+.navbar.bg-dark.d-lg-none .navbar-brand,
+.navbar.bg-dark.d-lg-none .nav-link,
+.navbar.bg-dark.d-lg-none .navbar-toggler,
+.navbar.bg-dark.d-lg-none .text-white,
+.navbar.bg-dark.d-lg-none .btn {
+    color: #fff !important;
+}
+.navbar.bg-dark.d-lg-none .nav-link.active,
+.navbar.bg-dark.d-lg-none .nav-link:focus,
+.navbar.bg-dark.d-lg-none .nav-link:hover {
+    color: #ffe082 !important; /* Amarillo claro */
+    text-shadow: 0 1px 6px #00000055;
+    font-weight: bold;
+}
