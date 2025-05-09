@@ -25,6 +25,7 @@ main {
     padding: 20px;
     min-height: 100vh;
     
+    
 }
 
 .sidebar {
@@ -514,8 +515,10 @@ main {
     display: none !important;
 }
 #loginScreen {
-    background: url('img/fondo_login.png') no-repeat center center;
-    background-size: cover;
+    background: 
+        url('img/fondo_login_low.png') no-repeat center center, /* Placeholder */
+        url('img/fondo_login.png') no-repeat center center;     /* Imagen real */
+    background-size: cover, cover;
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
 }
@@ -543,4 +546,24 @@ main {
 /* ===== SWEETALERT2 Z-INDEX ===== */
 .swal2-container {
     z-index: 3000 !important;
+}
+
+@media (max-width: 768px) {
+  main {
+    margin-left: 0 !important;
+    padding: 10px;
+  }
+
+  .sidebar {
+    display: none !important;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .btn, input, select {
+    font-size: 1rem;
+    padding: 10px;
+  }
 }

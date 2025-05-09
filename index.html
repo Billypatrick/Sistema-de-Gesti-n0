@@ -14,6 +14,23 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-lg-none">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Sistema</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mobileMenu">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="#clientes">Clientes</a></li>
+            <li class="nav-item"><a class="nav-link" href="#almacen">Almacén</a></li>
+            <li class="nav-item"><a class="nav-link" href="#caja">Caja</a></li>
+            <li class="nav-item"><a class="nav-link" href="#trabajadores">Trabajadores</a></li>
+        </ul>
+        </div>
+    </div>
+    </nav>
     <!-- Pantalla de Login -->
     <div id="loginScreen" class="d-flex align-items-center justify-content-center vh-100 bg-light position-fixed top-0 start-0 w-100 h-100" style="z-index:2000;">
         <div class="card shadow p-4" style="min-width:320px; max-width:350px;">
@@ -337,6 +354,42 @@
             if (loginScreen) loginScreen.style.display = '';
         }
 
+        // --- INICIO: Cierre de sesión por inactividad ---
+        let inactivityTimeout;
+        const INACTIVITY_LIMIT = 5 * 60 * 1000; // 5 minutos
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimeout);
+            if (localStorage.getItem('usuarioActual')) {
+                inactivityTimeout = setTimeout(() => {
+                    cerrarSesionPorInactividad();
+                }, INACTIVITY_LIMIT);
+            }
+        }
+
+        function cerrarSesionPorInactividad() {
+            localStorage.removeItem('usuarioActual');
+            document.getElementById('usuarioActual').textContent = '';
+            if (mainContent) mainContent.style.display = 'none';
+            if (loginScreen) loginScreen.style.display = '';
+            loginForm.reset();
+            Swal.fire({
+                icon: 'info',
+                title: 'Sesión cerrada por inactividad',
+                text: 'Por seguridad, tu sesión se ha cerrado automáticamente.',
+                confirmButtonText: 'OK'
+            });
+        }
+
+        ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'].forEach(event => {
+            window.addEventListener(event, resetInactivityTimer, true);
+        });
+
+        if (localStorage.getItem('usuarioActual')) {
+            resetInactivityTimer();
+        }
+        // --- FIN: Cierre de sesión por inactividad ---
+
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.trim();
@@ -357,6 +410,7 @@
                     if (mainContent) mainContent.style.display = '';
                     loginForm.reset();
                     document.getElementById('usuarioActual').textContent = 'Usuario: ' + usuarioValido.nombre;
+                    resetInactivityTimer();
                 });
             } else {
                 Swal.fire({
@@ -375,6 +429,7 @@
             loginForm.reset();
             localStorage.removeItem('usuarioActual');
             document.getElementById('usuarioActual').textContent = '';
+            clearTimeout(inactivityTimeout);
         });
     });
 
