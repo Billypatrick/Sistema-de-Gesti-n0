@@ -470,6 +470,125 @@ main {
     .table-responsive {
         border-radius: 4px;
     }
+    /* Ajuste específico para la columna ID en móvil (todas las tablas) */
+    #clientesBody td:first-child,
+    #clientesBody th:first-child,
+    #almacenBody td:first-child,
+    #almacenBody th:first-child,
+    #trabajadoresBody td:first-child,
+    #trabajadoresBody th:first-child,
+    #cajaBody td:first-child,
+    #cajaBody th:first-child {
+        min-width: 38px !important;
+        max-width: 44px !important;
+        width: 40px !important;
+        text-align: center;
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+    /* Ajuste específico para la columna DNI en móvil */
+    #clientesBody td:nth-child(2),
+    #clientesBody th:nth-child(2) {
+        min-width: 95px !important;
+        max-width: 110px !important;
+        width: 100px !important;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 1px;
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+    /* Ajuste específico para la columna Teléfono en móvil */
+    #clientesBody td:nth-child(4),
+    #clientesBody th:nth-child(4) {
+        min-width: 90px !important;
+        max-width: 110px !important;
+        width: 100px !important;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 1px;
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+    /* Ajuste específico para la columna Dirección en móvil */
+    #clientesBody td:nth-child(6),
+    #clientesBody th:nth-child(6) {
+        min-width: 220px !important;
+        max-width: 260px !important;
+        width: 240px !important;
+        text-align: left;
+        font-size: 0.97rem;
+        white-space: nowrap;
+        overflow-x: auto;
+        text-overflow: ellipsis;
+    }
+    /* Ajuste específico para la columna Stock en móvil */
+    #almacenBody td:nth-child(4),
+    #almacenBody th:nth-child(4) {
+        min-width: 70px !important;
+        max-width: 80px !important;
+        width: 75px !important;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 1px;
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+    /* Ajuste específico para la columna Peso en móvil */
+    #almacenBody td:nth-child(5),
+    #almacenBody th:nth-child(5) {
+        min-width: 110px !important;
+        max-width: 120px !important;
+        width: 115px !important;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 1px;
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+    /* Ajuste específico para la columna N° Trabajador en móvil */
+    #trabajadoresBody td:nth-child(2),
+    #trabajadoresBody th:nth-child(2) {
+        min-width: 120px !important;
+        max-width: 150px !important;
+        width: 135px !important;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 1px;
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+    /* Ajuste específico para la columna Nombre de Trabajadores en móvil (70 dígitos) */
+    #trabajadoresBody td:nth-child(3),
+    #trabajadoresBody th:nth-child(3) {
+        min-width: 480px !important;
+        max-width: 520px !important;
+        width: 500px !important;
+        text-align: left;
+        font-size: 1rem;
+        white-space: nowrap;
+        overflow-x: auto;
+        text-overflow: ellipsis;
+    }
+    /* Ajuste específico para la columna Edad en móvil */
+    #trabajadoresBody td:nth-child(7),
+    #trabajadoresBody th:nth-child(7) {
+        min-width: 60px !important;
+        max-width: 70px !important;
+        width: 65px !important;
+        text-align: center;
+        font-size: 1rem;
+        white-space: nowrap;
+    }
+    /* Ajuste específico para la columna Acciones en móvil (Caja) */
+    #cajaBody td:last-child,
+    #cajaBody th:last-child {
+        min-width: 210px !important;
+        max-width: 170px !important;
+        width: 155px !important;
+        text-align: center;
+        white-space: nowrap;
+    }
 }
 
 /* ===== AJUSTES DE COLUMNAS EN TABLAS ===== */
