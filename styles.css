@@ -393,7 +393,22 @@ main {
     filter: brightness(90%);
     transform: translateY(-2px);
 }
-
+#sectionTitle {
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #5D4037;
+    text-shadow: 0 2px 6px #00000011;
+}
+.modal.fade .modal-dialog {
+    transform: scale(0.95);
+    opacity: 0;
+    transition: all 0.25s;
+}
+.modal.show .modal-dialog {
+    transform: scale(1);
+    opacity: 1;
+}
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 992px) {
     .sidebar {
@@ -522,28 +537,62 @@ main {
         overflow-x: auto;
         text-overflow: ellipsis;
     }
-    /* Ajuste específico para la columna Stock en móvil */
-    #almacenBody td:nth-child(4),
-    #almacenBody th:nth-child(4) {
-        min-width: 70px !important;
-        max-width: 80px !important;
-        width: 75px !important;
-        text-align: center;
-        font-variant-numeric: tabular-nums;
-        letter-spacing: 1px;
-        font-size: 1rem;
+    #almacenBody td.col-producto,
+    #almacenBody th.col-producto {
+        min-width: 120px !important;
+        max-width: 160px !important;
+        width: 140px !important;
+        text-align: left;
         white-space: nowrap;
     }
-    /* Ajuste específico para la columna Peso en móvil */
-    #almacenBody td:nth-child(5),
-    #almacenBody th:nth-child(5) {
-        min-width: 110px !important;
-        max-width: 120px !important;
-        width: 115px !important;
+    #almacenBody td.col-descripcion,
+    #almacenBody th.col-descripcion {
+        min-width: 180px !important;
+        max-width: 220px !important;
+        width: 200px !important;
+        text-align: left;
+        white-space: nowrap;
+        overflow-x: auto;
+        text-overflow: ellipsis;
+    }
+    #almacenBody td.col-stock,
+    #almacenBody th.col-stock {
+        min-width: 60px !important;
+        max-width: 80px !important;
+        width: 70px !important;
         text-align: center;
-        font-variant-numeric: tabular-nums;
-        letter-spacing: 1px;
-        font-size: 1rem;
+        white-space: nowrap;
+    }
+    #almacenBody td.col-peso,
+    #almacenBody th.col-peso {
+        min-width: 80px !important;
+        max-width: 100px !important;
+        width: 90px !important;
+        text-align: center;
+        white-space: nowrap;
+    }
+    #almacenBody td.col-precio,
+    #almacenBody th.col-precio {
+        min-width: 90px !important;
+        max-width: 110px !important;
+        width: 100px !important;
+        text-align: center;
+        white-space: nowrap;
+    }
+    #almacenBody td.col-importe,
+    #almacenBody th.col-importe {
+        min-width: 90px !important;
+        max-width: 110px !important;
+        width: 100px !important;
+        text-align: center;
+        white-space: nowrap;
+    }
+    #almacenBody td.col-acciones,
+    #almacenBody th.col-acciones {
+        min-width: 90px !important;
+        max-width: 110px !important;
+        width: 100px !important;
+        text-align: center;
         white-space: nowrap;
     }
     /* Ajuste específico para la columna N° Trabajador en móvil */

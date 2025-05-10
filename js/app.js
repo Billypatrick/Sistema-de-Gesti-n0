@@ -129,24 +129,24 @@ function renderAlmacenTable(data, tableBody, startIndex = 0) {
         const importeInventario = (item.stock * parseFloat(item.precio || 0)).toFixed(2);
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${startIndex + index + 1}</td>
-            <td>${item.producto || ''}</td>
-            <td class="d-none-tablet d-none-mobile">${item.descripcion || ''}</td>
-            <td>${item.stock || '0'}</td>
-            <td>${item.peso || '0'} kg</td>
-            <td>${formatCurrency(item.precio || 0)}</td>
-            <td class="d-none-tablet d-none-mobile">${item.entrada || '0'}</td>
-            <td class="d-none-tablet d-none-mobile">${item.salida || '0'}</td>
-            <td>${formatCurrency(importeInventario)}</td>
-            <td>
-                <button class="btn btn-warning btn-sm" onclick="editRow('almacenData', ${index}, '#almacenBody')">
-                    <i class="fas fa-pen-to-square"></i>
-                </button>
-                <button class="btn btn-danger btn-sm" onclick="deleteRow('almacenData', ${index}, '#almacenBody')">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        `;
+        <td class="col-id">${startIndex + index + 1}</td>
+        <td class="col-producto">${item.producto || ''}</td>
+        <td class="col-descripcion d-none-tablet d-none-mobile">${item.descripcion || ''}</td>
+        <td class="col-stock">${item.stock || '0'}</td>
+        <td class="col-peso">${item.peso || '0'} kg</td>
+        <td class="col-precio">${formatCurrency(item.precio || 0)}</td>
+        <td class="col-entrada d-none-tablet d-none-mobile">${item.entrada || '0'}</td>
+        <td class="col-salida d-none-tablet d-none-mobile">${item.salida || '0'}</td>
+        <td class="col-importe">${formatCurrency(importeInventario)}</td>
+        <td class="col-acciones">
+            <button class="btn btn-warning btn-sm" onclick="editRow('almacenData', ${index}, '#almacenBody')">
+                <i class="fas fa-pen-to-square"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="deleteRow('almacenData', ${index}, '#almacenBody')">
+                <i class="fas fa-trash"></i>
+            </button>
+        </td>
+    `;
         tableBody.appendChild(row);
     });
 }
