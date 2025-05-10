@@ -70,16 +70,36 @@ export const modalFieldMap = {
         { 
             id: 'modalInputProducto', 
             label: 'Producto', 
-            type: 'select', // Cambiado de 'text' a 'select'
+            type: 'select',
             required: true,
-            options: ['Cacao', 'Café', 'Otros'], // Opciones disponibles
+            options: ['Cacao', 'Café', 'Otros'],
+            validation: (input) => input.setAttribute('required', 'true')
+        },
+        { 
+            id: 'modalInputStock', 
+            label: 'Stock', 
+            type: 'number', 
+            required: true,
             validation: (input) => {
-                input.setAttribute('required', 'true'); // Asegura que sea obligatorio
+                input.setAttribute('min', '0');
+                input.setAttribute('step', '1');
+                input.value = '0';
             }
         },
         { 
             id: 'modalInputPeso', 
             label: 'Peso (kg)', 
+            type: 'number', 
+            required: true,
+            validation: (input) => {
+                input.setAttribute('min', '0');
+                input.setAttribute('step', '0.01');
+                input.value = '0.00';
+            }
+        },
+        { 
+            id: 'modalInputPrecio', 
+            label: 'Precio', 
             type: 'number', 
             required: true,
             validation: (input) => {
@@ -99,37 +119,6 @@ export const modalFieldMap = {
                 input.value = '0';
             }
         },
-        {
-            id: 'modalInputDescripcion',
-            label: 'Descripción',
-            type: 'textarea',
-            validation: (input) => {
-                input.setAttribute('rows', '3');
-                input.setAttribute('maxlength', '255');
-            }
-        },
-        { 
-            id: 'modalInputStock', 
-            label: 'Stock Inicial', 
-            type: 'number', 
-            required: true,
-            validation: (input) => {
-                input.setAttribute('min', '0');
-                input.setAttribute('step', '1');
-                input.value = '0';
-            }
-        },
-        { 
-            id: 'modalInputPrecio', 
-            label: 'Precio', 
-            type: 'number', 
-            required: true,
-            validation: (input) => {
-                input.setAttribute('min', '0');
-                input.setAttribute('step', '0.01');
-                input.value = '0.00';
-            }
-        },
         { 
             id: 'modalInputSalida', 
             label: 'Salida', 
@@ -139,6 +128,15 @@ export const modalFieldMap = {
                 input.setAttribute('min', '0');
                 input.setAttribute('step', '1');
                 input.value = '0';
+            }
+        },
+        {
+            id: 'modalInputDescripcion',
+            label: 'Descripción',
+            type: 'textarea',
+            validation: (input) => {
+                input.setAttribute('rows', '3');
+                input.setAttribute('maxlength', '255');
             }
         }
     ],
@@ -308,6 +306,7 @@ export function setupModalFields(sectionId, modalType = 'add') {
         console.error(`❌ No se encontraron campos para la sección: ${sectionId}`);
         return;
     }
+    
 
     // Dividir campos en dos grupos
     const half = Math.ceil(fields.length / 2);
