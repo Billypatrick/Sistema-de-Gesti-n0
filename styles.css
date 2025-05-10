@@ -41,9 +41,7 @@ main {
     margin-left: 0; /* Elimina márgenes */
     width: 250px;  /* Ajusta el ancho según necesites */
 }
-.sidebar .text-center {
-    padding-left: 0;  /* Elimina padding interno */
-}
+
 
 .sidebar-hidden .sidebar {
     transform: translateX(-250px);
