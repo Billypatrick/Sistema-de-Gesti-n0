@@ -37,6 +37,12 @@ main {
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     transition: all 0.3s ease;
+    left: 0;       /* Lo pega al borde izquierdo */
+    margin-left: 0; /* Elimina márgenes */
+    width: 250px;  /* Ajusta el ancho según necesites */
+}
+.sidebar .text-center {
+    padding-left: 0;  /* Elimina padding interno */
 }
 
 .sidebar-hidden .sidebar {
