@@ -42,6 +42,26 @@ main {
     width: 250px;  /* Ajusta el ancho según necesites */
 }
 
+/* Asegura que los botones de acciones estén alineados verticalmente */
+.table td.caja-options {
+    vertical-align: middle !important;
+}
+/* Estilo base para los botones */
+.table td .btn-sm {
+    width: 32px;       /* Ancho fijo */
+    height: 32px;      /* Altura fija */
+    padding: 0;        /* Elimina padding interno */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;       /* Espacio entre botones */
+}
+
+/* Ajusta el tamaño de los íconos */
+.table td .btn-sm i {
+    font-size: 14px;   /* Tamaño uniforme */
+}
+
 
 .sidebar-hidden .sidebar {
     transform: translateX(-250px);
