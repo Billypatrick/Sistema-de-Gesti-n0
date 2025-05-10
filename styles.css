@@ -409,6 +409,13 @@ main {
     transform: scale(1);
     opacity: 1;
 }
+/* En escritorio grande, aumenta el padding */
+@media (min-width: 1200px) {
+    main, .container-fluid {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 992px) {
     .sidebar {
@@ -469,6 +476,10 @@ main {
     }
 }
 @media (max-width: 599px) {
+    main, .container-fluid {
+    padding-left: 5vw !important;
+    padding-right: 5vw !important;
+    }
     #toggleSidebar {
         left: 250px !important;
         top: 10px;
@@ -739,11 +750,35 @@ main {
 .swal2-container {
     z-index: 3000 !important;
 }
+/* Espaciado entre botón de agregar y buscador */
+.content-section .btn-success,
+.content-section .btn-agregar {
+    margin-bottom: 12px;
+    margin-right: 12px;
+}
 
 @media (max-width: 768px) {
   main {
     margin-left: 0 !important;
-    padding: 10px;
+    padding: 12px 5vw 20px 5vw !important; /* Más espacio a los lados */
+    min-width: 100vw;
+    width: 100vw;
+    box-sizing: border-box;
+  }
+  .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100vw !important;
+    box-sizing: border-box;
+  }
+  body {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  html, body {
+    overflow-x: hidden;
   }
 
   .sidebar {
@@ -758,6 +793,12 @@ main {
     font-size: 1rem;
     padding: 10px;
   }
+  .navbar.bg-dark.d-lg-none .navbar-brand,
+  .navbar.bg-dark.d-lg-none .nav-link {
+    padding-left: 8px !important;
+    padding-right: 18px !important;
+  }
+  
 }
 
 #toggleSidebar {
